@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { guestPath } from "@/lib/repository";
 import type { Invitation } from "@/types/invitation";
 import { InvitationCover } from "@/components/invitation/InvitationCover";
 import { Icon } from "@/components/ui/Icon";
@@ -113,7 +112,7 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
     }
   }
 
-  const previewUrl = guestPath(data.slug, "k7Np4xQw9a");
+  const previewUrl = "/xem-thiep";
   const props = { data, update, event, upload };
 
   return (
@@ -211,7 +210,12 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
             href={previewUrl}
             target="_blank"
             className="preview-link"
-            onClick={() => void save()}
+            onClick={(event) => {
+              event.preventDefault();
+              void save().then((ok) => {
+                if (ok) window.open(previewUrl, "_blank", "noopener,noreferrer");
+              });
+            }}
           >
             Xem toàn bộ thiệp <Icon name="arrow" size={15} />
           </Link>

@@ -41,5 +41,6 @@ export const config = {
     "/api/invitation/:path*",
     "/api/guests/:path*",
     "/api/images/:path*",
+    "/xem-thiep/:path*",
   ],
 };

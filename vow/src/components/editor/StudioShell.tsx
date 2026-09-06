@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 
-const DEMO_TOKEN = "k7Np4xQw9a";
-
 export function StudioShell({
   children,
   active = "invitation",
@@ -36,7 +34,7 @@ export function StudioShell({
           </Link>
         </nav>
         <Link
-          href={`/i/linh-and-minh/${DEMO_TOKEN}`}
+          href="/xem-thiep"
           target="_blank"
           className="nav-item nav-xem"
         >
