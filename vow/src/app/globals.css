@@ -139,23 +139,6 @@ svg {
   min-width: 0;
   flex: 1;
 }
-.topbar {
-  height: 58px;
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 42px;
-  font-size: 10px;
-  color: #858a7b;
-}
-.demo-pill {
-  font-size: 8px;
-  letter-spacing: 1.4px;
-  border: 1px solid #dedfd5;
-  padding: 6px 9px;
-  border-radius: 20px;
-}
 .editor-main {
   padding: 39px 42px 20px;
   max-width: 1600px;
@@ -745,9 +728,6 @@ td {
   .editor-main {
     padding: 30px 25px;
   }
-  .topbar {
-    padding: 0 25px;
-  }
   .editor-grid {
     gap: 20px;
     grid-template-columns: minmax(365px, 1.4fr) minmax(280px, 1fr);
@@ -867,9 +847,6 @@ td {
   .studio-content {
     margin: 0;
   }
-  .topbar {
-    height: 47px;
-  }
   .editor-grid {
     grid-template-columns: minmax(350px, 1fr) 280px;
   }
@@ -908,10 +885,6 @@ td {
   }
   .sidebar nav {
     gap: 6px;
-  }
-  .topbar {
-    padding: 0 20px;
-    font-size: 9px;
   }
   .editor-main {
     padding: 25px 16px;

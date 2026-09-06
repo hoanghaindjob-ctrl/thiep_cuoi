@@ -43,9 +43,6 @@ export function StudioShell({
         </Link>
       </aside>
       <div className="studio-content">
-        <header className="topbar">
-          <span className="demo-pill">BẢN DEMO</span>
-        </header>
         {children}
       </div>
     </div>
