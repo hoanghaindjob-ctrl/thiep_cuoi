@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "motion/react";
 
-/** Pixels per millisecond — roughly 34px a second, a reading pace. */
-const SPEED = 0.034;
+/** Pixels per millisecond — 1.5× the original 34px/s reading pace. */
+const SPEED = 0.051;
 /** Let the cover finish fading out before anything moves. */
 const START_DELAY = 1600;
 /** How long a reader's own scrolling holds the journey before it picks up. */
