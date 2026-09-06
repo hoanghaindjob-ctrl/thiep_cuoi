@@ -1,8 +1,10 @@
 # Vow — experience first
 
-Phase 1 is a local, single-browser demo. No authentication, Supabase client, migrations or remote publishing.
+Storage is Supabase, reached only from the server; the studio sits behind one
+shared password. The database itself is not part of this folder — it lives in
+`../supabase`, deployed on its own.
 
-Routes: `/` invitation studio, `/guests` guest list, `/i/linh-and-minh/[token]` personalized story. Typed mock repositories seed localStorage; presentation receives domain objects. Local data is not private or synchronized between devices. Copy links work in the same browser for newly created mock guests; seeded guests work in any browser running this app.
+Routes: `/` invitation studio, `/guests` guest list, `/i/linh-and-minh/[token]` personalized story. Every read and write goes through `src/lib/db.ts` on the server; presentation receives domain objects. Nothing is kept in the browser, so a guest link created in the studio opens from any device.
 
 Two visual systems, deliberately separate.
 

@@ -16,7 +16,7 @@ function AnhUpload({
 }) {
   return (
     <label className="photo-upload">
-      <Image src={src} width={600} height={300} alt={nhan} />
+      <Image src={src} width={600} height={300} alt={nhan} unoptimized />
       <span>
         <Icon name="image" />
         {nhan}

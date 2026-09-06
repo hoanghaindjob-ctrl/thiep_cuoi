@@ -10,6 +10,7 @@ import { CoupleFields } from "./CoupleFields";
 import { FamilyFields } from "./FamilyFields";
 import { PartyFields } from "./PartyFields";
 import { AlbumFields } from "./AlbumFields";
+import { inspectImageUpload } from "@/lib/imageUpload";
 
 /** Tabs follow the order the guest meets these blocks on the invitation. */
 const TABS = [
@@ -66,12 +67,31 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
 
   async function upload(file: File | undefined, target: UploadTarget) {
     if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setNotice("Tệp đã chọn không phải là ảnh.");
+      return;
+    }
     if (file.size > GIOI_HAN_MB * 1024 * 1024) {
       setNotice(
         `Tệp nặng hơn ${GIOI_HAN_MB} MB. Hãy dùng tệp nhẹ hơn, hoặc dán liên kết nếu là nhạc.`,
       );
       return;
     }
+
+    try {
+      const info = await inspectImageUpload(file);
+      if (info.looksOverCompressed) {
+        setNotice(
+          `Ảnh ${info.width}×${info.height}px nhưng dữ liệu quá ít nên sẽ bị vỡ. ` +
+            "Hãy tải ảnh gốc từ máy/Google Drive, không dùng ảnh đã gửi qua ứng dụng nhắn tin.",
+        );
+        return;
+      }
+    } catch {
+      setNotice("Không đọc được ảnh này. Hãy thử lại bằng tệp JPEG, PNG hoặc WebP.");
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       const src = String(reader.result);

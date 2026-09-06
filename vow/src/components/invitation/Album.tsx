@@ -78,6 +78,7 @@ export function Album({ items }: { items: GalleryItem[] }) {
                   src={item.src}
                   alt={item.alt}
                   fill
+                  unoptimized
                   sizes="(max-width: 700px) 58vw, 260px"
                 />
               </figure>

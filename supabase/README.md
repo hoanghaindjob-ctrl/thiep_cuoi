@@ -24,10 +24,18 @@ supabase link --project-ref <project-ref>   # ref lấy từ URL dashboard
 supabase db push                            # chạy migrations/
 ```
 
-Dữ liệu mẫu không đi kèm `db push`. Nạp riêng một lần:
+`db push` chỉ chạy migration. Muốn có luôn thiệp demo thì thêm cờ `--include-seed`
+— nó tự lấy `seed.sql` theo `sql_paths` khai trong `config.toml`:
 
 ```powershell
-supabase db execute --file supabase/seed.sql
+supabase db push --include-seed
+```
+
+Không dùng `supabase db execute` — lệnh đó không tồn tại. Cách khác nếu đã có
+`psql` và chuỗi kết nối (Project Settings → Database):
+
+```powershell
+psql "$DATABASE_URL" -f supabase/seed.sql
 ```
 
 ### Cách 2 — SQL Editor trên dashboard

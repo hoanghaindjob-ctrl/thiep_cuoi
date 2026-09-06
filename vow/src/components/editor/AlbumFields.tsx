@@ -17,7 +17,13 @@ export function AlbumFields({ data, update, upload }: EditorFieldsProps) {
       <div className="gallery-editor">
         {data.gallery.map((item) => (
           <div key={item.id}>
-            <Image src={item.src} width={160} height={180} alt={item.alt} />
+            <Image
+              src={item.src}
+              width={160}
+              height={180}
+              alt={item.alt}
+              unoptimized
+            />
             <button
               aria-label={`Xoá ảnh ${item.alt}`}
               onClick={() =>

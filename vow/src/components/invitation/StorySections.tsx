@@ -49,6 +49,7 @@ export function InvitationHero({ data }: { data: Invitation }) {
               alt={data.gallery[0]?.alt ?? "Ảnh cưới của cô dâu và chú rể"}
               fill
               priority
+              unoptimized
               sizes="(max-width: 700px) 45vw, 200px"
             />
           </div>
@@ -136,6 +137,7 @@ export function CouplePortraits({ data }: { data: Invitation }) {
             src={data.groomPhoto}
             alt={`Ảnh chú rể ${data.groom}`}
             fill
+            unoptimized
             sizes="(max-width: 700px) 45vw, 260px"
           />
         </div>
@@ -150,6 +152,7 @@ export function CouplePortraits({ data }: { data: Invitation }) {
             src={data.bridePhoto}
             alt={`Ảnh cô dâu ${data.bride}`}
             fill
+            unoptimized
             sizes="(max-width: 700px) 45vw, 260px"
           />
         </div>
@@ -331,6 +334,7 @@ export function InvitationClosing({ data }: { data: Invitation }) {
           src={data.hero}
           alt=""
           fill
+          unoptimized
           sizes="(max-width: 700px) 100vw, 900px"
         />
       </div>

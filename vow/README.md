@@ -39,7 +39,7 @@ enough to exercise every screen but resets when the server restarts.
 ## Included
 
 - A two-page studio, in Vietnamese: **Nội dung thiệp** (couple and photos, both families, the party and its timeline, album, music and section visibility) and **Khách mời**. Every editor field maps to something the guest actually sees.
-- Device-local saving with explicit saved/unsaved feedback.
+- Saving goes to the server through `/api/invitation`, with explicit saved/unsaved feedback.
 - Full-viewport personalized envelope with a gold 囍 wax seal, opening reveal, original ambient soundtrack, persistent music controls.
 - Vietnamese invitation sections: lễ thành hôn with nhà trai / nhà gái, tiệc cưới with countdown and month calendar, bản đồ, dress code, lịch trình, album ảnh, hộp quà mừng and xác nhận tham dự.
 - Lunar date derived from the chosen wedding date (`src/lib/lunar.ts`), an "Thêm vào lịch" Google Calendar link, and a 3D album carousel that advances itself and pauses on interaction.
