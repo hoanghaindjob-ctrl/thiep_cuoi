@@ -1,0 +1,13 @@
+# Bí mật — mỗi nơi deploy tự đặt biến môi trường của mình.
+.env
+.env.*
+!.env.example
+
+# Supabase CLI
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# misc
+.DS_Store
+Thumbs.db

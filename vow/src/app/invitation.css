@@ -1,0 +1,1508 @@
+/*
+ * Thiệp cưới — Minimalism Đỏ Đô
+ *
+ * A cream card standing in a burgundy room. The page below keeps that rhythm:
+ * cream ground, punctuated by burgundy cards with a peony bleeding off an
+ * alternating edge. Gold appears only on burgundy — at 2.3:1 it cannot be read
+ * as text on cream, so there it stays a drawn line, never a word.
+ *
+ * Scoped entirely under .thiep / .thiep-bia so the studio's system in
+ * globals.css is untouched.
+ */
+
+.thiep,
+.thiep-bia {
+  /* ink */
+  --muc: #511419;
+  --muc-sau: #380a0e;
+  --muc-nhat: #6e1a20;
+  --son: #8c3a3f;
+  --vang: #c9a24a;
+  /* paper */
+  --giay: #fff7eb;
+  --kem: #ece4d8;
+  --kem-sang: #f3e8de;
+  /* secondary ink on burgundy — 6.3:1 */
+  --kem-mo: rgba(236, 228, 216, 0.7);
+  /* secondary ink on cream — 5.9:1 */
+  --muc-mo: rgba(81, 20, 25, 0.72);
+  --duong: rgba(81, 20, 25, 0.15);
+
+  --chu-hoa: var(--font-thiep-display), "Viaoda Libre", Georgia, serif;
+  --chu: var(--font-thiep-body), Lora, Georgia, serif;
+
+  --t-xs: 12px;
+  --t-sm: 14px;
+  --t-md: 16px;
+  --t-lg: 18px;
+  --t-xl: 20px;
+  --t-2xl: 26px;
+  --t-3xl: 46px;
+  --t-4xl: 58px;
+
+  --s1: 8px;
+  --s2: 12px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 32px;
+  --s6: 36px;
+  --s7: 40px;
+  --s8: 56px;
+
+  --r: 8px;
+  --r-the: 10px;
+  --vien: 999px;
+
+  --nhanh: 150ms;
+  --vua: 200ms;
+  --cham: 300ms;
+
+  --hoa-nen: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2288%22 height=%2288%22%3E%3Cg fill=%22none%22 stroke=%22%23511419%22 stroke-width=%221.4%22%3E%3Ccircle cx=%2244%22 cy=%2238%22 r=%225%22/%3E%3Ccircle cx=%2244%22 cy=%2250%22 r=%225%22/%3E%3Ccircle cx=%2238%22 cy=%2244%22 r=%225%22/%3E%3Ccircle cx=%2250%22 cy=%2244%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%22-6%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%226%22 r=%225%22/%3E%3Ccircle cx=%22-6%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%226%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%22-6%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%226%22 r=%225%22/%3E%3Ccircle cx=%2282%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%2294%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%2282%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%2294%22 r=%225%22/%3E%3Ccircle cx=%22-6%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%226%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%2282%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%2294%22 r=%225%22/%3E%3Ccircle cx=%2282%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%2294%22 cy=%2288%22 r=%225%22/%3E%3C/g%3E%3Ccircle cx=%2222%22 cy=%2222%22 r=%221.7%22 fill=%22%23511419%22 stroke=%22none%22/%3E%3Ccircle cx=%2266%22 cy=%2222%22 r=%221.7%22 fill=%22%23511419%22 stroke=%22none%22/%3E%3Ccircle cx=%2222%22 cy=%2266%22 r=%221.7%22 fill=%22%23511419%22 stroke=%22none%22/%3E%3Ccircle cx=%2266%22 cy=%2266%22 r=%221.7%22 fill=%22%23511419%22 stroke=%22none%22/%3E%3C/svg%3E");
+  --hoa-nen-vang: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2288%22 height=%2288%22%3E%3Cg fill=%22none%22 stroke=%22%23c9a24a%22 stroke-width=%221.3%22%3E%3Ccircle cx=%2244%22 cy=%2238%22 r=%225%22/%3E%3Ccircle cx=%2244%22 cy=%2250%22 r=%225%22/%3E%3Ccircle cx=%2238%22 cy=%2244%22 r=%225%22/%3E%3Ccircle cx=%2250%22 cy=%2244%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%22-6%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%226%22 r=%225%22/%3E%3Ccircle cx=%22-6%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%226%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%22-6%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%226%22 r=%225%22/%3E%3Ccircle cx=%2282%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%2294%22 cy=%220%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%2282%22 r=%225%22/%3E%3Ccircle cx=%220%22 cy=%2294%22 r=%225%22/%3E%3Ccircle cx=%22-6%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%226%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%2282%22 r=%225%22/%3E%3Ccircle cx=%2288%22 cy=%2294%22 r=%225%22/%3E%3Ccircle cx=%2282%22 cy=%2288%22 r=%225%22/%3E%3Ccircle cx=%2294%22 cy=%2288%22 r=%225%22/%3E%3C/g%3E%3Ccircle cx=%2222%22 cy=%2222%22 r=%221.7%22 fill=%22%23c9a24a%22 stroke=%22none%22/%3E%3Ccircle cx=%2266%22 cy=%2222%22 r=%221.7%22 fill=%22%23c9a24a%22 stroke=%22none%22/%3E%3Ccircle cx=%2222%22 cy=%2266%22 r=%221.7%22 fill=%22%23c9a24a%22 stroke=%22none%22/%3E%3Ccircle cx=%2266%22 cy=%2266%22 r=%221.7%22 fill=%22%23c9a24a%22 stroke=%22none%22/%3E%3C/svg%3E");
+  --grain: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%224%22/%3E%3C/filter%3E%3Crect width=%22160%22 height=%22160%22 filter=%22url(%23n)%22/%3E%3C/svg%3E");
+
+  font-family: var(--chu);
+  font-size: var(--t-sm);
+  line-height: 1.625;
+}
+
+@font-face {
+  font-family: "Song Hy";
+  src: url("/fonts/double-happiness.woff2") format("woff2");
+  font-weight: 500;
+  font-display: block;
+  unicode-range: U+56cd;
+}
+.hy-glyph {
+  font-family: "Song Hy", serif;
+  line-height: 1;
+  display: block;
+}
+
+/* ── The envelope ─────────────────────────────────────────────── */
+
+.thiep-bia {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--s4) var(--s3);
+  background: linear-gradient(
+    to bottom right,
+    var(--muc-nhat),
+    var(--muc) 55%,
+    var(--muc-sau)
+  );
+}
+/* Keeps the oxblood backdrop from reading as a flat gradient. */
+.thiep-bia::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--hoa-nen-vang);
+  background-size: 104px 104px;
+  opacity: 0.07;
+  pointer-events: none;
+}
+.bia-bui {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bia-canh {
+  position: absolute;
+  top: -40px;
+  animation: roi linear infinite;
+  will-change: transform;
+}
+@keyframes roi {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(var(--lech), 105svh, 0) rotate(300deg);
+  }
+}
+
+.bia-khung {
+  position: relative;
+  z-index: 10;
+  width: min(310px, 100%);
+}
+.bia-the {
+  position: relative;
+  border-radius: var(--r);
+  background: var(--kem-sang);
+  border: 1px solid var(--duong);
+  overflow: hidden;
+  box-shadow:
+    0 25px 60px -12px rgba(0, 0, 0, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 0 40px rgba(81, 20, 25, 0.15);
+}
+.bia-the::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--hoa-nen), var(--grain);
+  background-size: 88px 88px, 160px 160px;
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.bia-hoa {
+  position: absolute;
+  width: 150px;
+  color: var(--son);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.bia-hoa.tren {
+  top: -34px;
+  left: -46px;
+  transform: rotate(25deg);
+}
+.bia-hoa.duoi {
+  right: -46px;
+  bottom: -34px;
+  transform: scaleX(-1) rotate(25deg);
+}
+.bia-noi-dung {
+  position: relative;
+  z-index: 2;
+  padding: 84px var(--s4) var(--s7);
+  text-align: center;
+}
+
+.bia-trien .hy-glyph {
+  font-size: 30px;
+}
+.bia-trien {
+  position: absolute;
+  left: 50%;
+  top: 44px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--vang);
+  background: radial-gradient(circle at 30% 30%, var(--son), var(--muc-sau));
+  box-shadow:
+    0 4px 20px rgba(81, 20, 25, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.35);
+  animation: trien 2.4s ease-in-out infinite;
+}
+@keyframes trien {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 20px rgba(81, 20, 25, 0.5),
+      inset 0 2px 4px rgba(255, 255, 255, 0.28),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 4px 30px rgba(201, 162, 74, 0.5),
+      inset 0 2px 4px rgba(255, 255, 255, 0.28),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.bia-khach {
+  font-size: var(--t-xs);
+  color: var(--muc-mo);
+  margin-bottom: var(--s4);
+}
+.bia-khach strong {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  color: var(--muc);
+}
+.bia-ten {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--chu-hoa);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--muc);
+}
+.bia-ten i {
+  margin: 2px 0;
+  font-style: normal;
+  font-size: var(--t-lg);
+  line-height: 1;
+}
+.bia-ngay {
+  margin-top: var(--s2);
+  font-size: var(--t-lg);
+  color: var(--muc-mo);
+}
+.bia-moi {
+  max-width: 300px;
+  margin: var(--s4) auto;
+  font-size: var(--t-lg);
+  color: var(--muc-mo);
+}
+.bia-mo {
+  padding: 10px var(--s5);
+  border-radius: var(--vien);
+  font-family: var(--chu);
+  font-size: var(--t-lg);
+  font-weight: 500;
+  background: var(--muc);
+  color: var(--kem-sang);
+  box-shadow: 0 4px 14px rgba(81, 20, 25, 0.35);
+  transition:
+    background var(--vua) ease,
+    transform var(--nhanh) ease;
+}
+.bia-mo:hover {
+  background: var(--muc-nhat);
+}
+.bia-mo:active {
+  transform: translateY(1px);
+}
+
+/* ── Page furniture ───────────────────────────────────────────── */
+
+.thiep {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--giay);
+  color: var(--muc);
+  isolation: isolate;
+  overflow-x: clip;
+}
+.thiep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--grain);
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+/* Patterned wedding paper: the rosette reduced to a repeating diaper. Kept
+   under 6% so it reads as tooth in the stock, never as decoration. */
+.thiep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--hoa-nen);
+  background-size: 88px 88px;
+  opacity: 0.055;
+  pointer-events: none;
+}
+/* Lift content above the grain — but not the cover or the floating controls,
+   which must stay fixed to the viewport. A bare `.thiep > *` here outranks a
+   single class, so anything left out of this exclusion list silently loses its
+   position:fixed and drops back into the flow at the end of the page. */
+.thiep > *:not(.thiep-bia, .dieu-khien) {
+  position: relative;
+  z-index: 1;
+}
+.thiep :focus-visible {
+  outline: 2px solid var(--son);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.the :focus-visible,
+.thiep-bia :focus-visible,
+.ket :focus-visible {
+  outline-color: var(--vang);
+}
+/* :where() keeps this a zero-specificity default, so a single-class rule like
+   .dia-diem-ten can still set its own size without an escalation war. */
+.thiep :where(p) {
+  font-size: var(--t-sm);
+}
+
+.tieu-de {
+  font-family: var(--chu);
+  font-size: var(--t-xl);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* a rosette between two rules that fade outward */
+.hoa-van {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  margin: var(--s3) auto;
+  color: var(--son);
+}
+.hoa-van::before,
+.hoa-van::after {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, currentColor);
+}
+.hoa-van::after {
+  background: linear-gradient(to left, transparent, currentColor);
+}
+.the .hoa-van,
+.ket .hoa-van {
+  color: var(--vang);
+}
+
+/* burgundy card */
+.the {
+  position: relative;
+  width: 88%;
+  max-width: 420px;
+  margin: var(--s3) auto;
+  padding: var(--s6) var(--s4) var(--s7);
+  border-radius: var(--r-the);
+  background: var(--muc);
+  color: var(--kem);
+  text-align: center;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+}
+.the::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-the);
+  background-image: var(--grain);
+  opacity: 0.11;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.the::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--r-the);
+  background-image: var(--hoa-nen-vang);
+  background-size: 104px 104px;
+  opacity: 0.075;
+  pointer-events: none;
+}
+.the > * {
+  position: relative;
+  z-index: 2;
+}
+.the .tieu-de {
+  color: var(--kem);
+}
+.the p {
+  color: var(--kem-mo);
+}
+.the-hoa {
+  position: absolute;
+  z-index: 1;
+  width: 36%;
+  max-width: 140px;
+  color: var(--vang);
+  opacity: 0.26;
+  pointer-events: none;
+  animation: dua 6.5s ease-in-out infinite;
+}
+.the--trai .the-hoa {
+  left: -9%;
+  top: 6%;
+  transform: rotate(-14deg);
+}
+.the--phai .the-hoa {
+  right: -9%;
+  top: -6%;
+  transform: scaleX(-1) rotate(-14deg);
+}
+@keyframes dua {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+.thiep .button {
+  padding: 10px var(--s4);
+  border: 1px solid var(--muc);
+  border-radius: var(--vien);
+  font-family: var(--chu);
+  font-size: var(--t-sm);
+  background: var(--muc);
+  color: var(--kem-sang);
+  transition:
+    background var(--vua) ease,
+    border-color var(--vua) ease;
+}
+.thiep .button:hover {
+  background: var(--muc-nhat);
+  border-color: var(--muc-nhat);
+}
+.the .button {
+  background: var(--kem);
+  border-color: var(--kem);
+  color: var(--muc);
+}
+.the .button:hover {
+  background: #fff;
+  border-color: #fff;
+}
+
+/* ── Mở đầu ───────────────────────────────────────────────────── */
+
+.mo-dau {
+  position: relative;
+  padding: var(--s8) var(--s4) var(--s7);
+  text-align: center;
+}
+.mo-dau-nhan {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--son);
+}
+/* An open envelope, the photo still half inside it. */
+.phong-thu {
+  position: relative;
+  width: 82%;
+  max-width: 320px;
+  margin: var(--s5) auto var(--s7);
+  aspect-ratio: 1 / 0.94;
+}
+.thu-nen {
+  position: absolute;
+  inset: 30% 0 0;
+  border-radius: 4px;
+  background: linear-gradient(155deg, #7a1f26, var(--muc) 60%, #46101a);
+  box-shadow: 0 16px 32px rgba(56, 10, 14, 0.3);
+}
+.thu-anh {
+  position: absolute;
+  top: 0;
+  left: 29%;
+  z-index: 2;
+  width: 46%;
+  margin: 0;
+  padding: 7px;
+  background: #fffdf8;
+  box-shadow: 2px 4px 12px rgba(56, 10, 14, 0.35);
+  rotate: 9deg;
+  animation: dua 6.5s ease-in-out infinite;
+}
+.thu-anh > div {
+  position: relative;
+  aspect-ratio: 221 / 309;
+  overflow: hidden;
+}
+.thu-anh img {
+  object-fit: cover;
+  object-position: 58% center;
+}
+.thu-truoc {
+  position: absolute;
+  inset: 30% 0 0;
+  z-index: 3;
+  border-radius: 4px;
+  background: linear-gradient(200deg, #6e1a20, #4a1116);
+  clip-path: polygon(0 0, 50% 46%, 100% 0, 100% 100%, 0 100%);
+}
+.thu-hoa {
+  position: absolute;
+  z-index: 4;
+  width: 42%;
+  color: var(--vang);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.thu-hoa.trai {
+  bottom: -8%;
+  left: -13%;
+  transform: rotate(-16deg);
+}
+.thu-hoa.phai {
+  right: -13%;
+  bottom: 0;
+  transform: scaleX(-1) rotate(-12deg);
+}
+.thu-trien {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  color: var(--vang);
+  background: radial-gradient(circle at 32% 30%, var(--son), var(--muc-sau));
+  box-shadow:
+    0 4px 16px rgba(56, 10, 14, 0.55),
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.35);
+}
+.thu-trien .hy-glyph {
+  font-size: 26px;
+}
+.mo-dau-ten {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--chu-hoa);
+  font-size: var(--t-3xl);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--muc);
+}
+.mo-dau-loi {
+  max-width: 34ch;
+  margin: var(--s4) auto 0;
+  font-size: var(--t-sm);
+  color: var(--muc-mo);
+}
+
+/* ── Lễ thành hôn ─────────────────────────────────────────────── */
+
+.gia-dinh {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0 var(--s4);
+  align-items: stretch;
+  margin: var(--s5) 0 var(--s6);
+}
+.gia-dinh > span {
+  width: 1px;
+  background: rgba(236, 228, 216, 0.28);
+}
+.gia-dinh h3 {
+  margin-bottom: var(--s1);
+  font-family: var(--chu);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  color: var(--kem-mo);
+}
+.gia-dinh p {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--kem);
+  overflow-wrap: anywhere;
+}
+.gia-dinh small {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--kem-mo);
+}
+.bao-tin {
+  font-size: var(--t-xs);
+  line-height: 2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kem-mo);
+}
+.cap-doi {
+  margin: var(--s5) 0 var(--s4);
+}
+.cap-doi h3 {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-3xl);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--kem);
+}
+.cap-doi span {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--kem-mo);
+}
+.cap-doi i {
+  display: block;
+  margin: var(--s2) 0;
+  font-family: var(--chu-hoa);
+  font-style: normal;
+  font-size: var(--t-2xl);
+  color: var(--vang);
+}
+.ngay-lon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s4);
+  margin-top: var(--s5);
+}
+.ngay-lon b {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-3xl);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--kem);
+}
+.ngay-lon > span {
+  width: 1px;
+  height: 46px;
+  background: rgba(236, 228, 216, 0.3);
+}
+.ngay-lon div {
+  font-size: var(--t-xs);
+  line-height: 1.7;
+  text-align: left;
+  color: var(--kem-mo);
+}
+
+/* ── Tiệc cưới ────────────────────────────────────────────────── */
+
+.don-khach {
+  margin: var(--s5) 0 var(--s4);
+}
+.don-khach span {
+  display: block;
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--kem-mo);
+}
+.don-khach b {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+  font-weight: 400;
+  color: var(--kem);
+}
+.dem-nguoc {
+  display: flex;
+  justify-content: center;
+  gap: var(--s2);
+  margin: var(--s4) 0 var(--s3);
+}
+.dem-nguoc div {
+  min-width: 58px;
+  padding: var(--s1) 4px;
+  border: 1px solid rgba(236, 228, 216, 0.25);
+  border-radius: var(--r);
+}
+.dem-nguoc b {
+  display: block;
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--kem);
+  font-variant-numeric: tabular-nums;
+}
+.dem-nguoc span {
+  font-size: 11px;
+  color: var(--kem-mo);
+}
+
+/* ── Địa điểm ─────────────────────────────────────────────────── */
+
+.dia-diem {
+  padding: var(--s7) var(--s4) var(--s8);
+  text-align: center;
+}
+.dia-diem p {
+  max-width: 34ch;
+  margin: var(--s3) auto var(--s4);
+  color: var(--muc-mo);
+}
+
+/* ── Lịch trình ───────────────────────────────────────────────── */
+
+.lich-trinh {
+  margin-top: var(--s5);
+  text-align: left;
+}
+.lich-trinh li {
+  display: grid;
+  grid-template-columns: 56px 9px 1fr;
+  gap: var(--s3);
+  padding-bottom: var(--s5);
+}
+.lich-trinh li:last-child {
+  padding-bottom: 0;
+}
+.lich-trinh time {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  line-height: 1.4;
+  color: var(--vang);
+  font-variant-numeric: tabular-nums;
+}
+.cham-tron {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  margin-top: 9px;
+  border-radius: 50%;
+  background: var(--vang);
+}
+.lich-trinh li:not(:last-child) .cham-tron::after {
+  content: "";
+  position: absolute;
+  top: 13px;
+  bottom: -42px;
+  left: 3px;
+  width: 1px;
+  background: rgba(201, 162, 74, 0.35);
+}
+.lich-trinh h3 {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--kem);
+}
+.lich-trinh p {
+  margin-top: 2px;
+  font-size: var(--t-xs);
+  text-align: left;
+  color: var(--kem-mo);
+}
+
+/* ── Album ────────────────────────────────────────────────────── */
+
+.album {
+  padding: var(--s7) var(--s4) var(--s8);
+  text-align: center;
+}
+.album-luoi {
+  display: grid;
+  gap: var(--s4);
+  margin-top: var(--s5);
+}
+.album figure {
+  margin: 0;
+}
+.album figure > div {
+  position: relative;
+  height: 320px;
+  border: 1px solid var(--duong);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.album figcaption {
+  margin-top: var(--s2);
+  font-size: var(--t-xs);
+  font-style: italic;
+  color: var(--muc-mo);
+}
+
+/* ── Trân trọng cảm ơn ────────────────────────────────────────── */
+
+.cam-on {
+  padding: var(--s8) var(--s4);
+}
+/* A ruled card, the way a printed thank-you slip is bordered twice. */
+.cam-on-khung {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--s8) var(--s5) var(--s7);
+  border: 1px solid rgba(81, 20, 25, 0.28);
+  border-radius: 18px;
+  text-align: center;
+}
+.cam-on-khung::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(81, 20, 25, 0.14);
+  border-radius: 13px;
+  pointer-events: none;
+}
+.cam-on-de {
+  font-family: var(--chu-hoa);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--muc);
+}
+.cam-on-khung p {
+  max-width: 36ch;
+  margin: var(--s4) auto 0;
+  font-size: var(--t-md);
+  line-height: 1.75;
+  color: var(--muc-mo);
+}
+.cam-on-than {
+  display: block;
+  margin-top: var(--s6);
+  font-size: var(--t-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muc-mo);
+}
+/* The signature. Its rules used to live with the story section, which is gone,
+   so they belong here now — this is the only place that signs off by hand. */
+.cam-on-khung .ky-ten {
+  display: block;
+  margin-top: var(--s2);
+  font-family: var(--chu-hoa);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--son);
+}
+.cam-on-hoa {
+  position: absolute;
+  color: var(--son);
+  opacity: 0.32;
+  pointer-events: none;
+}
+.cam-on-hoa.mot {
+  top: 34%;
+  left: -6px;
+}
+.cam-on-hoa.hai {
+  bottom: 22%;
+  left: 4%;
+}
+.cam-on-hoa.ba {
+  top: 12%;
+  right: -5px;
+}
+
+/* ── Kết ──────────────────────────────────────────────────────── */
+
+.ket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 440px;
+  overflow: hidden;
+  padding: 96px var(--s4);
+  text-align: center;
+  color: var(--kem);
+  background: var(--muc-sau);
+}
+.ket-anh {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.ket-anh img {
+  object-fit: cover;
+  object-position: 60% center;
+}
+.ket-anh::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(110, 26, 32, 0.82),
+    rgba(56, 10, 14, 0.93)
+  );
+}
+.ket > *:not(.ket-anh) {
+  position: relative;
+  z-index: 1;
+}
+.ket .tieu-de {
+  color: var(--kem);
+}
+.ket > p {
+  margin-top: var(--s3);
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+  color: var(--kem);
+}
+
+/* ── Controls ─────────────────────────────────────────────────── */
+
+.dieu-khien {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s2);
+  max-width: calc(100% - 36px);
+}
+/* The audio error is the one thing here that has to be read, so it keeps
+   its words while the controls become icons. */
+.dieu-khien > span[role="status"] {
+  max-width: 210px;
+  padding: 8px 13px;
+  border: 1px solid var(--duong);
+  border-radius: var(--vien);
+  font-family: var(--chu);
+  font-size: 11px;
+  text-align: right;
+  color: var(--muc);
+  background: rgba(255, 247, 235, 0.94);
+  box-shadow: 0 2px 14px rgba(56, 10, 14, 0.28);
+  backdrop-filter: blur(6px);
+}
+.auto-control {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--duong);
+  border-radius: 50%;
+  font-family: var(--chu);
+  font-size: var(--t-sm);
+  line-height: 1;
+  color: var(--muc);
+  background: rgba(255, 247, 235, 0.94);
+  box-shadow: 0 2px 12px rgba(56, 10, 14, 0.24);
+  backdrop-filter: blur(6px);
+  transition: background var(--vua) ease;
+}
+.auto-control:hover {
+  background: #fff;
+}
+/* Gold note on oxblood — the same pairing as the wax seal. */
+.nut-nhac {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(201, 162, 74, 0.42);
+  border-radius: 50%;
+  color: var(--vang);
+  background: var(--muc);
+  box-shadow: 0 4px 16px rgba(56, 10, 14, 0.42);
+  transition:
+    background var(--vua) ease,
+    opacity var(--vua) ease;
+}
+.nut-nhac:hover {
+  background: var(--muc-nhat);
+}
+.nut-nhac[aria-pressed="false"] {
+  opacity: 0.82;
+}
+/* A slow ripple is the only signal that sound is playing, for anyone who has
+   the volume down or is reading on mute. */
+.nut-nhac[aria-pressed="true"] {
+  animation: nhip 2.6s ease-in-out infinite;
+}
+@keyframes nhip {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 16px rgba(56, 10, 14, 0.42),
+      0 0 0 0 rgba(201, 162, 74, 0.5);
+  }
+  60% {
+    box-shadow:
+      0 4px 16px rgba(56, 10, 14, 0.42),
+      0 0 0 9px rgba(201, 162, 74, 0);
+  }
+}
+
+.dang-mo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s4);
+  min-height: 100svh;
+  padding: var(--s4);
+  text-align: center;
+  background: var(--giay);
+  color: var(--muc);
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+}
+.dang-mo p {
+  max-width: 34ch;
+  font-family: var(--chu);
+  font-size: var(--t-sm);
+  color: var(--muc-mo);
+}
+.dang-mo a {
+  font-family: var(--chu);
+  font-size: var(--t-sm);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.parallax-window {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.parallax-layer {
+  position: absolute;
+  inset: -7% 0;
+}
+.parallax-layer img {
+  object-fit: cover;
+  object-position: 60% center;
+}
+.thiep > div[tabindex] {
+  outline: none;
+}
+.noi-dung.an {
+  display: none;
+}
+
+/* ── Wider than a phone ───────────────────────────────────────── */
+
+@media (min-width: 700px) {
+  .thiep {
+    max-width: 900px;
+    border-inline: 1px solid var(--duong);
+  }
+  .bia-khung {
+    width: 520px;
+  }
+  .bia-noi-dung {
+    padding: 96px var(--s7) var(--s8);
+  }
+  .bia-hoa {
+    width: 230px;
+  }
+  .bia-ten {
+    font-size: var(--t-3xl);
+  }
+  .the {
+    max-width: 560px;
+    padding: var(--s7) var(--s6) var(--s8);
+  }
+  .mo-dau,
+  .dia-diem,
+  .album,
+  .ket {
+    padding-inline: var(--s7);
+  }
+  .tieu-de {
+    font-size: 32px;
+  }
+  .mo-dau-ten {
+    font-size: var(--t-4xl);
+  }
+  .anh-khung {
+    max-width: 340px;
+  }
+  .album-luoi {
+    grid-template-columns: 1fr 1fr;
+  }
+  .album figure > div {
+    height: 380px;
+  }
+  .cam-on-de {
+    font-size: var(--t-3xl);
+  }
+  .cap-doi h3,
+  .ngay-lon b {
+    font-size: var(--t-4xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bia-bui {
+    display: none;
+  }
+  .bia-trien,
+  .the-hoa,
+  .anh-khung {
+    animation: none;
+  }
+}
+
+/* ── Inside the studio's phone frame (276×548) ────────────────── */
+
+.thiep-bia.bia--xem {
+  position: absolute;
+  z-index: 1;
+  padding: 14px;
+}
+.bia--xem .bia-bui {
+  display: none;
+}
+.bia--xem .bia-khung {
+  width: 100%;
+}
+.bia--xem .bia-noi-dung {
+  padding: 60px var(--s3) var(--s4);
+}
+.bia--xem .bia-trien {
+  top: 32px;
+  width: 46px;
+  height: 46px;
+}
+.bia--xem .bia-trien .hy-glyph {
+  font-size: 22px;
+}
+.bia--xem .bia-hoa {
+  width: 108px;
+}
+.bia--xem .bia-khach {
+  margin-bottom: var(--s3);
+  font-size: 11px;
+}
+.bia--xem .bia-khach strong {
+  font-size: var(--t-md);
+}
+.bia--xem .bia-ten {
+  font-size: 23px;
+}
+.bia--xem .bia-ten i {
+  font-size: var(--t-sm);
+}
+.bia--xem .bia-ngay,
+.bia--xem .bia-moi {
+  font-size: var(--t-sm);
+}
+.bia--xem .bia-moi {
+  margin: var(--s3) auto;
+}
+.bia--xem .bia-mo {
+  padding: 8px var(--s4);
+  font-size: var(--t-sm);
+}
+
+/* ── Ceremony + reception detail ──────────────────────────────── */
+
+.cu-hanh {
+  margin-top: var(--s5);
+  font-size: var(--t-sm);
+  line-height: 1.9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--kem-mo);
+}
+.hai-ben {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s3);
+  max-width: 210px;
+  margin: var(--s2) auto 0;
+  font-size: var(--t-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kem);
+}
+.ngay-am {
+  margin-top: var(--s2);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--kem-mo);
+}
+.gio-tiec {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--s5);
+  margin-top: var(--s5);
+}
+.gio-tiec > span {
+  width: 1px;
+  background: rgba(236, 228, 216, 0.3);
+}
+.gio-tiec div span {
+  display: block;
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--kem-mo);
+}
+.gio-tiec div b {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+  font-weight: 400;
+  color: var(--kem);
+}
+.dem-nhan {
+  margin-top: var(--s5);
+  font-size: var(--t-sm);
+  color: var(--kem-mo);
+}
+.them-lich {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: var(--s3);
+  font-size: var(--t-sm);
+  color: var(--kem);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.the .button {
+  margin-top: var(--s5);
+}
+
+/* ── Mini calendar ────────────────────────────────────────────── */
+
+.lich-nho {
+  width: fit-content;
+  max-width: 100%;
+  margin: var(--s5) auto 0;
+  padding: var(--s2) var(--s3) var(--s3);
+  border-radius: var(--r);
+  background: var(--kem);
+  color: var(--muc);
+}
+.lich-thang {
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(81, 20, 25, 0.27);
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+}
+.lich-tuan,
+.lich-ngay {
+  display: grid;
+  grid-template-columns: repeat(7, 30px);
+}
+.lich-tuan {
+  padding: 6px 0;
+  border-bottom: 2px solid var(--muc);
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.6;
+}
+.lich-ngay {
+  padding-top: 5px;
+  font-size: var(--t-xs);
+  font-variant-numeric: tabular-nums;
+}
+.lich-ngay span {
+  display: grid;
+  place-items: center;
+  height: 26px;
+}
+.lich-ngay .dam {
+  border-radius: 50%;
+  background: var(--muc);
+  color: var(--kem);
+  font-weight: 600;
+}
+.lich-am {
+  margin-top: var(--s1);
+  font-size: 11px;
+  color: var(--muc-mo);
+}
+
+/* ── Ảnh cô dâu chú rể ────────────────────────────────────────── */
+
+.doi-anh {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  padding: var(--s7) var(--s4) var(--s5);
+  text-align: center;
+}
+.doi-anh figure {
+  margin: 0;
+}
+.doi-anh figure > div {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--duong);
+  border-radius: 14px;
+  background: var(--kem);
+  box-shadow: 0 8px 20px rgba(81, 20, 25, 0.16);
+}
+.doi-anh img {
+  object-fit: cover;
+}
+/* Both slots currently hold the same couple photo, so each frame crops to its
+   own half of it. Drop these two rules once real portraits are uploaded. */
+.doi-anh .chu-re img {
+  object-position: 34% center;
+}
+.doi-anh .co-dau img {
+  object-position: 70% center;
+}
+.doi-anh figcaption {
+  margin-top: var(--s2);
+}
+.doi-anh figcaption span {
+  display: block;
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--son);
+}
+.doi-anh figcaption b {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--muc);
+}
+
+/* ── Album carousel ───────────────────────────────────────────── */
+
+.album-vong {
+  position: relative;
+  margin-top: var(--s5);
+}
+.album-khung {
+  position: relative;
+  z-index: 1;
+}
+.album-san {
+  position: relative;
+  height: 430px;
+  perspective: 1200px;
+}
+.album-the {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 66%;
+  max-width: 285px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--kem);
+  box-shadow: 0 14px 34px rgba(81, 20, 25, 0.26);
+  transition:
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 620ms ease;
+  will-change: transform;
+}
+.album-the img {
+  object-fit: cover;
+}
+.album-lui,
+.album-toi {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  translate: 0 -50%;
+  border: 1px solid var(--duong);
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--muc);
+  background: rgba(255, 247, 235, 0.94);
+  box-shadow: 0 2px 10px rgba(81, 20, 25, 0.18);
+  transition: background var(--vua) ease;
+}
+.album-lui:hover,
+.album-toi:hover {
+  background: #fff;
+}
+.album-lui {
+  left: 2px;
+}
+.album-toi {
+  right: 2px;
+}
+.album-chu {
+  margin-top: var(--s4);
+  font-size: var(--t-xs);
+  font-style: italic;
+  color: var(--muc-mo);
+}
+.album-cham {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: var(--s2);
+}
+.album-cham button {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(81, 20, 25, 0.25);
+  transition:
+    width var(--cham) ease,
+    background var(--vua) ease;
+}
+.album-cham button.dang {
+  width: 22px;
+  background: var(--muc);
+}
+
+/* ── Map ──────────────────────────────────────────────────────── */
+
+.dia-diem-ten {
+  margin-top: var(--s2);
+  font-family: var(--chu-hoa);
+  font-size: var(--t-2xl);
+  color: var(--muc);
+}
+.ban-do {
+  width: 100%;
+  background: var(--kem);
+  height: 250px;
+  margin: var(--s4) 0;
+  overflow: hidden;
+  border: 1px solid var(--duong);
+  border-radius: var(--r);
+}
+.ban-do iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (min-width: 700px) {
+  .phong-thu {
+    max-width: 400px;
+  }
+  .doi-anh {
+    gap: var(--s5);
+    padding-inline: var(--s7);
+  }
+  .doi-anh figcaption b {
+    font-size: var(--t-2xl);
+  }
+  .album-san {
+    height: 520px;
+  }
+  .album-the {
+    max-width: 340px;
+  }
+  .ket {
+    min-height: 560px;
+    padding: 130px var(--s7);
+  }
+  .ban-do {
+    height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thu-anh,
+  .album-the,
+  .nut-nhac {
+    animation: none;
+    transition: none;
+  }
+}

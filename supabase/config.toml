@@ -1,0 +1,37 @@
+# Supabase CLI — cấu hình cho hạ tầng của thiệp cưới.
+#
+# File này chỉ mô tả dự án cho CLI; nó không chứa bí mật nào. Liên kết với dự
+# án thật bằng `supabase link --project-ref <ref>` (ref nằm trong URL dashboard
+# và trong SUPABASE_URL).
+
+project_id = "vow"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+# Cho khớp Postgres của dự án: Supabase → Settings → Infrastructure.
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+# Ứng dụng không dùng Supabase Auth: studio đứng sau STUDIO_PASSWORD, thiệp
+# của khách mở tự do bằng token trong đường dẫn.
+enabled = false
+
+[storage]
+# Ảnh và nhạc hiện nhúng thẳng vào cột jsonb. Bật lại khi chuyển sang Storage.
+enabled = false
