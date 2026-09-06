@@ -20,11 +20,6 @@ const TABS = [
   { ten: "Album & nhạc", mo: "Ảnh cưới, nhạc nền và phần nào hiện trên thiệp." },
 ];
 
-/**
- * Uploads are inlined into the invitation as data URIs, so an image's cost is
- * paid on every read of the row. Small enough to stay comfortable; moving to
- * Supabase Storage would lift it.
- */
 const GIOI_HAN_MB = 3;
 
 export function InvitationEditor({ initial }: { initial: Invitation }) {
@@ -92,9 +87,23 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const src = String(reader.result);
+    setNotice("Đang tải ảnh lên…");
+    try {
+      const form = new FormData();
+      form.set("file", file);
+      form.set("slug", data.slug);
+      form.set("target", target);
+      const response = await fetch("/api/images", { method: "POST", body: form });
+      const body = (await response.json().catch(() => ({}))) as {
+        url?: string;
+        error?: string;
+      };
+      if (!response.ok || !body.url) {
+        setNotice(body.error ?? "Không tải được ảnh.");
+        return;
+      }
+
+      const src = body.url;
       if (target === "gallery") {
         update({
           gallery: [
@@ -105,8 +114,10 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
       } else {
         update({ [target]: src });
       }
-    };
-    reader.readAsDataURL(file);
+      setNotice("Đã tải ảnh. Nhấn “Lưu thay đổi” để hoàn tất.");
+    } catch {
+      setNotice("Không kết nối được máy chủ khi tải ảnh.");
+    }
   }
 
   const previewUrl = guestPath(data.slug, "k7Np4xQw9a");
