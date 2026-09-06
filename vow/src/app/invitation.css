@@ -864,12 +864,24 @@
 /* The signature. Its rules used to live with the story section, which is gone,
    so they belong here now — this is the only place that signs off by hand. */
 .cam-on-khung .ky-ten {
-  display: block;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
   margin-top: var(--s2);
   font-family: var(--chu-hoa);
-  font-size: 32px;
+  font-size: clamp(24px, 7vw, 32px);
   font-weight: 400;
+  line-height: 1.18;
   color: var(--son);
+}
+.cam-on-khung .ky-ten > span {
+  display: block;
+  max-width: 100%;
+  white-space: nowrap;
+}
+.cam-on-khung .ky-ten-va {
+  font-size: 0.8em;
+  line-height: 1;
 }
 .cam-on-hoa {
   position: absolute;
@@ -898,35 +910,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 440px;
+  min-height: 240px;
   overflow: hidden;
-  padding: 96px var(--s4);
+  padding: 56px var(--s4);
   text-align: center;
   color: var(--kem);
   background: var(--muc-sau);
-}
-.ket-anh {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.ket-anh img {
-  object-fit: cover;
-  object-position: 60% center;
-}
-.ket-anh::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(110, 26, 32, 0.82),
-    rgba(56, 10, 14, 0.93)
-  );
-}
-.ket > *:not(.ket-anh) {
-  position: relative;
-  z-index: 1;
 }
 .ket .tieu-de {
   color: var(--kem);
@@ -1490,8 +1479,8 @@
     max-width: 340px;
   }
   .ket {
-    min-height: 560px;
-    padding: 130px var(--s7);
+    min-height: 280px;
+    padding: 64px var(--s7);
   }
   .ban-do {
     height: 320px;

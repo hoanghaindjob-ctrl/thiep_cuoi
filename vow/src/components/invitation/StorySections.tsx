@@ -317,7 +317,9 @@ export function ThankYou({ data }: { data: Invitation }) {
         </p>
         <span className="cam-on-than">Thân</span>
         <span className="ky-ten">
-          {data.groom} &amp; {data.bride}
+          <span>{data.groom}</span>
+          <span className="ky-ten-va">&amp;</span>
+          <span>{data.bride}</span>
         </span>
       </Reveal>
     </section>
@@ -327,17 +329,6 @@ export function ThankYou({ data }: { data: Invitation }) {
 export function InvitationClosing({ data }: { data: Invitation }) {
   return (
     <footer className="ket">
-      {/* The photo sits under a heavy oxblood wash: even over the brightest
-          part of an image, cream type stays above 7:1 against it. */}
-      <div className="ket-anh" aria-hidden="true">
-        <Image
-          src={data.hero}
-          alt=""
-          fill
-          unoptimized
-          sizes="(max-width: 700px) 100vw, 900px"
-        />
-      </div>
       <Reveal>
         <h2 className="tieu-de">Hẹn gặp bạn trong ngày vui</h2>
         <Divider />
