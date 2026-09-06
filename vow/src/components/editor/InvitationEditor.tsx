@@ -74,14 +74,7 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
     }
 
     try {
-      const info = await inspectImageUpload(file);
-      if (info.looksOverCompressed) {
-        setNotice(
-          `Ảnh ${info.width}×${info.height}px nhưng dữ liệu quá ít nên sẽ bị vỡ. ` +
-            "Hãy tải ảnh gốc từ máy/Google Drive, không dùng ảnh đã gửi qua ứng dụng nhắn tin.",
-        );
-        return;
-      }
+      await inspectImageUpload(file);
     } catch {
       setNotice("Không đọc được ảnh này. Hãy thử lại bằng tệp JPEG, PNG hoặc WebP.");
       return;
