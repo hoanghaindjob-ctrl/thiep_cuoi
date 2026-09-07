@@ -19,10 +19,56 @@ export async function GET() {
 function looksLikeInvitation(v: unknown): v is Invitation {
   if (!v || typeof v !== "object") return false;
   const i = v as Partial<Invitation>;
+  const ceremonyEvent = i.ceremonyEvent as
+    | {
+        [key: string]: Partial<{
+          date: string;
+          time: string;
+          venue: string;
+          address: string;
+          mapsUrl: string;
+          dressCode: string;
+          contact: string;
+        }>;
+      }
+    | undefined;
+  const ceremonyText = i.ceremonyText as
+    | {
+        [key: string]: Partial<{
+          announcementLine: string;
+          noticeLine: string;
+          venueLine: string;
+        }>;
+      }
+    | undefined;
+  const okCeremonyText =
+    ceremonyText === undefined ||
+    (typeof ceremonyText === "object" &&
+      ceremonyText !== null &&
+      typeof ceremonyText["thanh-hon"]?.announcementLine === "string" &&
+      typeof ceremonyText["thanh-hon"]?.noticeLine === "string" &&
+      typeof ceremonyText["thanh-hon"]?.venueLine === "string" &&
+      typeof ceremonyText["vu-quy"]?.announcementLine === "string" &&
+      typeof ceremonyText["vu-quy"]?.noticeLine === "string" &&
+      typeof ceremonyText["vu-quy"]?.venueLine === "string");
+  const okCeremonyEvent =
+    ceremonyEvent === undefined ||
+    (typeof ceremonyEvent === "object" &&
+      ceremonyEvent !== null &&
+      typeof ceremonyEvent["thanh-hon"]?.date === "string" &&
+      typeof ceremonyEvent["thanh-hon"]?.time === "string" &&
+      typeof ceremonyEvent["thanh-hon"]?.venue === "string" &&
+      typeof ceremonyEvent["thanh-hon"]?.address === "string" &&
+      typeof ceremonyEvent["vu-quy"]?.date === "string" &&
+      typeof ceremonyEvent["vu-quy"]?.time === "string" &&
+      typeof ceremonyEvent["vu-quy"]?.venue === "string" &&
+      typeof ceremonyEvent["vu-quy"]?.address === "string");
   return (
     typeof i.slug === "string" &&
     i.slug.length > 0 &&
     (i.ceremonyType === "thanh-hon" || i.ceremonyType === "vu-quy") &&
+    okCeremonyText &&
+    okCeremonyEvent &&
     typeof i.bride === "string" &&
     typeof i.groom === "string" &&
     typeof i.event === "object" &&

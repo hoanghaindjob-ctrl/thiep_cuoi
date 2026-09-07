@@ -35,6 +35,7 @@ export function InvitationCover({
   onOpen?: () => void;
   preview?: boolean;
 }) {
+  const ceremonyEvent = data.ceremonyEvent[data.ceremonyType] ?? data.event;
   const reduced = useReducedMotion();
   return (
     <motion.div
@@ -84,7 +85,7 @@ export function InvitationCover({
               <Rosette size={14} />
             </div>
             <div className="bia-ngay">
-              {formatDate(data.event.date, {
+              {formatDate(ceremonyEvent.date, {
                 day: "2-digit",
                 month: "2-digit",
                 year: "numeric",

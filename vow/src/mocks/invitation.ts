@@ -2,6 +2,40 @@ import type { Invitation } from "@/types/invitation";
 export const invitation: Invitation = {
   slug: "linh-and-minh",
   ceremonyType: "thanh-hon",
+  ceremonyText: {
+    "thanh-hon": {
+      announcementLine: "Trân trọng báo tin",
+      noticeLine: "lễ thành hôn của con chúng tôi",
+      venueLine: "Lễ thành hôn được cử hành tại",
+    },
+    "vu-quy": {
+      announcementLine: "Trân trọng báo tin",
+      noticeLine: "lễ vu quy của gia đình chúng tôi",
+      venueLine: "Lễ vu quy được cử hành tại",
+    },
+  },
+  ceremonyEvent: {
+    "thanh-hon": {
+      date: "2026-12-20",
+      time: "16:30",
+      venue: "The Reverie Saigon",
+      address: "22–36 Nguyễn Huệ, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=The+Reverie+Saigon",
+      dressCode: "Tông trung tính, một chút thanh lịch",
+      contact: "+84 900 123 456",
+    },
+    "vu-quy": {
+      date: "2026-12-20",
+      time: "15:30",
+      venue: "Nhà thờ Thánh Xavier",
+      address: "45 Nguyễn Thị Minh Khai, Quận 3, TP. Hồ Chí Minh",
+      mapsUrl:
+        "https://www.google.com/maps/search/?api=1&query=Nhà+thờ+Thánh+Xavier",
+      dressCode: "Trang trọng truyền thống",
+      contact: "+84 900 123 456",
+    },
+  },
   title: "Về chung một nhà",
   bride: "Khánh Linh",
   groom: "Hoàng Minh",

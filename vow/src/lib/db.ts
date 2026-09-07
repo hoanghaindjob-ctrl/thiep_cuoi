@@ -49,9 +49,29 @@ function normalise(stored: Partial<Invitation>): Invitation {
       note: stored.gift?.note ?? seed.gift.note,
       accounts: stored.gift?.accounts ?? structuredClone(seed.gift.accounts),
     },
+    ceremonyEvent: {
+      "thanh-hon": {
+        ...seed.ceremonyEvent["thanh-hon"],
+        ...stored.ceremonyEvent?.["thanh-hon"],
+      },
+      "vu-quy": {
+        ...seed.ceremonyEvent["vu-quy"],
+        ...stored.ceremonyEvent?.["vu-quy"],
+      },
+    },
     gallery: stored.gallery ?? structuredClone(seed.gallery),
     timeline: stored.timeline ?? structuredClone(seed.timeline),
     sections: stored.sections ?? structuredClone(seed.sections),
+    ceremonyText: {
+      "thanh-hon": {
+        ...seed.ceremonyText["thanh-hon"],
+        ...stored.ceremonyText?.["thanh-hon"],
+      },
+      "vu-quy": {
+        ...seed.ceremonyText["vu-quy"],
+        ...stored.ceremonyText?.["vu-quy"],
+      },
+    },
   };
 }
 

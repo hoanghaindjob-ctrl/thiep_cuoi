@@ -77,7 +77,8 @@ export function InvitationHero({ data }: { data: Invitation }) {
 /** Lễ thành hôn — the block a Vietnamese invitation is really built around. */
 export function CeremonyCard({ data }: { data: Invitation }) {
   const { groom, bride } = data.families;
-  const ceremonyName = data.ceremonyType === "vu-quy" ? "vu quy" : "thành hôn";
+  const ceremonyText = data.ceremonyText[data.ceremonyType];
+  const ceremonyEvent = data.ceremonyEvent[data.ceremonyType] ?? data.event;
   return (
     <Reveal className="the the--phai" as="section">
       <PeonySpray className="the-hoa" />
@@ -105,9 +106,9 @@ export function CeremonyCard({ data }: { data: Invitation }) {
         </div>
       </div>
       <p className="bao-tin">
-        Trân trọng báo tin
+        {ceremonyText.announcementLine}
         <br />
-        lễ {ceremonyName} của con chúng tôi
+        {ceremonyText.noticeLine}
       </p>
       <div className="cap-doi">
         <h3>{data.groom}</h3>
@@ -115,15 +116,15 @@ export function CeremonyCard({ data }: { data: Invitation }) {
         <h3>{data.bride}</h3>
       </div>
       <p className="cu-hanh">
-        Lễ {ceremonyName} được cử hành tại
+        {ceremonyText.venueLine}
         <br />
-        {data.event.venue}
+        {ceremonyEvent.venue}
       </p>
       <div className="hai-ben">
-        <span>Vào lúc {data.event.time}</span>
-        <span>{formatDate(data.event.date, { weekday: "long" })}</span>
+        <span>Vào lúc {ceremonyEvent.time}</span>
+        <span>{formatDate(ceremonyEvent.date, { weekday: "long" })}</span>
       </div>
-      <DateLockup date={data.event.date} />
+      <DateLockup date={ceremonyEvent.date} />
     </Reveal>
   );
 }
@@ -168,23 +169,25 @@ export function CouplePortraits({ data }: { data: Invitation }) {
 
 /** Google Calendar wants UTC stamps; the ceremony is quoted in Asia/Ho_Chi_Minh. */
 function calendarUrl(data: Invitation) {
-  const [h, m] = data.event.time.split(":").map(Number);
-  const start = new Date(`${data.event.date}T00:00:00Z`);
+  const ceremonyEvent = data.ceremonyEvent[data.ceremonyType] ?? data.event;
+  const [h, m] = ceremonyEvent.time.split(":").map(Number);
+  const start = new Date(`${ceremonyEvent.date}T00:00:00Z`);
   start.setUTCHours((h || 0) - 7, m || 0, 0, 0);
   const end = new Date(start.getTime() + 3 * 60 * 60 * 1000);
   const stamp = (d: Date) =>
     d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const title = `Đám cưới ${data.groom} & ${data.bride}`;
-  const where = `${data.event.venue}, ${data.event.address}`;
+  const where = `${ceremonyEvent.venue}, ${ceremonyEvent.address}`;
   return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
     title,
   )}&dates=${stamp(start)}/${stamp(end)}&location=${encodeURIComponent(
-    where,
+    `${ceremonyEvent.venue}, ${ceremonyEvent.address}`,
   )}&ctz=Asia/Ho_Chi_Minh`;
 }
 
 export function ReceptionCard({ data }: { data: Invitation }) {
   const banquet = data.timeline.find((t) => /khai tiệc/i.test(t.title));
+  const ceremonyEvent = data.ceremonyEvent[data.ceremonyType] ?? data.event;
   return (
     <Reveal className="the the--trai" as="section">
       <PeonySpray className="the-hoa" />
@@ -192,46 +195,47 @@ export function ReceptionCard({ data }: { data: Invitation }) {
       <Divider />
       <p className="cu-hanh">Tiệc cưới sẽ diễn ra vào lúc</p>
       <div className="hai-ben">
-        <span>{formatDate(data.event.date, { weekday: "long" })}</span>
-        <span>{banquet?.time ?? data.event.time}</span>
+        <span>{formatDate(ceremonyEvent.date, { weekday: "long" })}</span>
+        <span>{banquet?.time ?? ceremonyEvent.time}</span>
       </div>
-      <DateLockup date={data.event.date} />
+      <DateLockup date={ceremonyEvent.date} />
       <div className="gio-tiec">
         <div>
           <span>Đón khách</span>
-          <b>{data.event.time}</b>
+          <b>{ceremonyEvent.time}</b>
         </div>
         <span aria-hidden="true" />
         <div>
           <span>Khai tiệc</span>
-          <b>{banquet?.time ?? data.event.time}</b>
+          <b>{banquet?.time ?? ceremonyEvent.time}</b>
         </div>
       </div>
-      <MiniCalendar date={data.event.date} />
+      <MiniCalendar date={ceremonyEvent.date} />
       <a className="them-lich" href={calendarUrl(data)} target="_blank" rel="noreferrer">
         <Icon name="calendar" size={14} />
         Thêm vào lịch
       </a>
       <p className="dem-nhan">Cùng đếm ngược đến ngày vui</p>
-      <Countdown date={data.event.date} time={data.event.time} />
+      <Countdown date={ceremonyEvent.date} time={ceremonyEvent.time} />
     </Reveal>
   );
 }
 
 export function VenueSection({ data }: { data: Invitation }) {
-  const safe = /^https?:\/\//.test(data.event.mapsUrl);
-  const q = encodeURIComponent(`${data.event.venue}, ${data.event.address}`);
+  const ceremonyEvent = data.ceremonyEvent[data.ceremonyType] ?? data.event;
+  const safe = /^https?:\/\//.test(ceremonyEvent.mapsUrl);
+  const q = encodeURIComponent(`${ceremonyEvent.venue}, ${ceremonyEvent.address}`);
   return (
     <section className="dia-diem">
       <Reveal>
         <h2 className="tieu-de">Tiệc cưới sẽ tổ chức tại</h2>
-        <p className="dia-diem-ten">{data.event.venue}</p>
-        <p>{data.event.address}</p>
+          <p className="dia-diem-ten">{ceremonyEvent.venue}</p>
+          <p>{ceremonyEvent.address}</p>
       </Reveal>
       <Reveal className="ban-do" variant="hien" delay={0.12}>
         <iframe
           src={`https://maps.google.com/maps?q=${q}&output=embed`}
-          title={`Bản đồ tới ${data.event.venue}`}
+          title={`Bản đồ tới ${ceremonyEvent.venue}`}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
@@ -239,7 +243,7 @@ export function VenueSection({ data }: { data: Invitation }) {
       {safe && (
         <a
           className="button"
-          href={data.event.mapsUrl}
+          href={ceremonyEvent.mapsUrl}
           target="_blank"
           rel="noreferrer"
         >

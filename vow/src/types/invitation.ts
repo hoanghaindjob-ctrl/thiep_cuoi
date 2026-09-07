@@ -7,6 +7,14 @@ export interface EventDetails {
   dressCode: string;
   contact: string;
 }
+
+export type CeremonyType = "thanh-hon" | "vu-quy";
+
+export interface CeremonyText {
+  announcementLine: string;
+  noticeLine: string;
+  venueLine: string;
+}
 export interface GalleryItem {
   id: string;
   src: string;
@@ -51,7 +59,9 @@ export interface Gift {
 export interface Invitation {
   slug: string;
   /** Cho phép dùng cùng một mẫu cho lễ nhà trai hoặc lễ nhà gái. */
-  ceremonyType: "thanh-hon" | "vu-quy";
+  ceremonyType: CeremonyType;
+  ceremonyText: Record<CeremonyType, CeremonyText>;
+  ceremonyEvent: Record<CeremonyType, EventDetails>;
   title: string;
   bride: string;
   groom: string;
@@ -74,7 +84,7 @@ export interface Invitation {
 export type RSVPStatus = "Awaiting reply" | "Attending" | "Declined";
 export interface Guest {
   token: string;
-  ceremonyType: Invitation["ceremonyType"];
+  ceremonyType: CeremonyType;
   name: string;
   contact: string;
   group: string;
