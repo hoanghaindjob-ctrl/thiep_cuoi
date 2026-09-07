@@ -37,9 +37,13 @@ export const usingFallback = !supabaseConfigured;
  */
 function normalise(stored: Partial<Invitation>): Invitation {
   const seed = seedInvitation;
+  const baseEvent = { ...seed.event, ...stored.event };
+  const ceremonyType: Invitation["ceremonyType"] =
+    stored.ceremonyType === "vu-quy" ? "vu-quy" : "thanh-hon";
   return {
     ...seed,
     ...stored,
+    ceremonyType,
     event: { ...seed.event, ...stored.event },
     families: {
       groom: { ...seed.families.groom, ...stored.families?.groom },
@@ -51,11 +55,11 @@ function normalise(stored: Partial<Invitation>): Invitation {
     },
     ceremonyEvent: {
       "thanh-hon": {
-        ...seed.ceremonyEvent["thanh-hon"],
+        ...baseEvent,
         ...stored.ceremonyEvent?.["thanh-hon"],
       },
       "vu-quy": {
-        ...seed.ceremonyEvent["vu-quy"],
+        ...baseEvent,
         ...stored.ceremonyEvent?.["vu-quy"],
       },
     },
@@ -89,7 +93,8 @@ interface GuestRow {
 function toGuest(row: GuestRow): Guest {
   return {
     token: row.token,
-    ceremonyType: row.ceremony_type ?? "thanh-hon",
+    ceremonyType:
+      row.ceremony_type === "vu-quy" ? "vu-quy" : "thanh-hon",
     name: row.name,
     contact: row.contact ?? "",
     group: row.group ?? "",
