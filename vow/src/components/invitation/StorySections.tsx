@@ -77,6 +77,7 @@ export function InvitationHero({ data }: { data: Invitation }) {
 /** Lễ thành hôn — the block a Vietnamese invitation is really built around. */
 export function CeremonyCard({ data }: { data: Invitation }) {
   const { groom, bride } = data.families;
+  const ceremonyName = data.ceremonyType === "vu-quy" ? "vu quy" : "thành hôn";
   return (
     <Reveal className="the the--phai" as="section">
       <PeonySpray className="the-hoa" />
@@ -106,7 +107,7 @@ export function CeremonyCard({ data }: { data: Invitation }) {
       <p className="bao-tin">
         Trân trọng báo tin
         <br />
-        lễ thành hôn của con chúng tôi
+        lễ {ceremonyName} của con chúng tôi
       </p>
       <div className="cap-doi">
         <h3>{data.groom}</h3>
@@ -114,7 +115,7 @@ export function CeremonyCard({ data }: { data: Invitation }) {
         <h3>{data.bride}</h3>
       </div>
       <p className="cu-hanh">
-        Lễ thành hôn được cử hành tại
+        Lễ {ceremonyName} được cử hành tại
         <br />
         {data.event.venue}
       </p>

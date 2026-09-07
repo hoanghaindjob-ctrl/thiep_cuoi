@@ -1,6 +1,7 @@
 import type { Invitation } from "@/types/invitation";
 export const invitation: Invitation = {
   slug: "linh-and-minh",
+  ceremonyType: "thanh-hon",
   title: "Về chung một nhà",
   bride: "Khánh Linh",
   groom: "Hoàng Minh",

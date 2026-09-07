@@ -22,6 +22,7 @@ function looksLikeInvitation(v: unknown): v is Invitation {
   return (
     typeof i.slug === "string" &&
     i.slug.length > 0 &&
+    (i.ceremonyType === "thanh-hon" || i.ceremonyType === "vu-quy") &&
     typeof i.bride === "string" &&
     typeof i.groom === "string" &&
     typeof i.event === "object" &&

@@ -50,6 +50,8 @@ export interface Gift {
 }
 export interface Invitation {
   slug: string;
+  /** Cho phép dùng cùng một mẫu cho lễ nhà trai hoặc lễ nhà gái. */
+  ceremonyType: "thanh-hon" | "vu-quy";
   title: string;
   bride: string;
   groom: string;

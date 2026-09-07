@@ -35,6 +35,17 @@ export function CoupleFields({ data, update, upload }: EditorFieldsProps) {
     <>
       <div className="field-grid">
         <Field
+          wide
+          type="select"
+          label="Loại thiệp"
+          value={data.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"}
+          options={["Lễ thành hôn", "Lễ vu quy"]}
+          onChange={(value) =>
+            update({ ceremonyType: value === "Lễ vu quy" ? "vu-quy" : "thanh-hon" })
+          }
+          hint="Thiệp dùng chung một mẫu; lựa chọn này chỉ đổi tên nghi lễ trong nội dung."
+        />
+        <Field
           label="Tên chú rể"
           value={data.groom}
           onChange={(groom) => update({ groom })}
