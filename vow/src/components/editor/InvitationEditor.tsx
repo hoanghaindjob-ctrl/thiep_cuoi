@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import type { Invitation } from "@/types/invitation";
 import { InvitationCover } from "@/components/invitation/InvitationCover";
@@ -23,6 +23,7 @@ const GIOI_HAN_MB = 3;
 
 export function InvitationEditor({ initial }: { initial: Invitation }) {
   const [data, setData] = useState<Invitation>(initial);
+  const latestData = useRef(data);
   const [tab, setTab] = useState(0);
   const [saved, setSaved] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -31,7 +32,11 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
   const update = (
     patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
   ) => {
-    setData((d) => ({ ...d, ...(typeof patch === "function" ? patch(d) : patch) }));
+    setData((d) => {
+      const next = { ...d, ...(typeof patch === "function" ? patch(d) : patch) };
+      latestData.current = next;
+      return next;
+    });
     setSaved(false);
   };
   const event = (key: keyof Invitation["event"], value: string) =>
@@ -43,7 +48,7 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
       const res = await fetch("/api/invitation", {
         method: "PUT",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(latestData.current),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
