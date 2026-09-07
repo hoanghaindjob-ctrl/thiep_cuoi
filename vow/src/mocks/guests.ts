@@ -2,6 +2,7 @@ import type { Guest } from "@/types/invitation";
 export const guests: Guest[] = [
   {
     token: "k7Np4xQw9a",
+    ceremonyType: "thanh-hon",
     name: "Anh & Tú",
     contact: "anh@example.com",
     group: "Bạn bè",
@@ -12,6 +13,7 @@ export const guests: Guest[] = [
   },
   {
     token: "v2Rt8mLs3b",
+    ceremonyType: "vu-quy",
     name: "Mai Phương",
     contact: "",
     group: "Gia đình",
@@ -21,6 +23,7 @@ export const guests: Guest[] = [
   },
   {
     token: "c9Wy5hJd6e",
+    ceremonyType: "thanh-hon",
     name: "Hoàng Nam",
     contact: "",
     group: "Bạn bè",
@@ -30,6 +33,7 @@ export const guests: Guest[] = [
   },
   {
     token: "a3Fm7pUz2s",
+    ceremonyType: "vu-quy",
     name: "Ngọc Anh",
     contact: "",
     group: "Đồng nghiệp",
@@ -39,6 +43,7 @@ export const guests: Guest[] = [
   },
   {
     token: "b6Kq2nHv8t",
+    ceremonyType: "thanh-hon",
     name: "Thảo & Huy",
     contact: "",
     group: "Gia đình",

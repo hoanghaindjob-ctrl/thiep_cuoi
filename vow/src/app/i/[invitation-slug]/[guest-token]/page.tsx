@@ -38,7 +38,7 @@ export default async function InvitationPage({
 
   return (
     <GuestExperience
-      invitation={invitation}
+      invitation={{ ...invitation, ceremonyType: guest.ceremonyType }}
       guest={guest}
       initialOpen={q.open === "1"}
     />

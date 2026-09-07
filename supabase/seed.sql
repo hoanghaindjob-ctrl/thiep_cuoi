@@ -10,6 +10,7 @@ insert into public.invitations (slug, data) values (
   'linh-and-minh',
   jsonb_build_object(
     'slug', 'linh-and-minh',
+    'ceremonyType', 'thanh-hon',
     'title', 'Về chung một nhà',
     'bride', 'Khánh Linh',
     'groom', 'Hoàng Minh',

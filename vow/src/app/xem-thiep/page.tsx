@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic";
 
 const previewGuest: Guest = {
   token: "preview",
+  ceremonyType: "thanh-hon",
   name: "Quý khách",
   contact: "",
   group: "Xem trước",

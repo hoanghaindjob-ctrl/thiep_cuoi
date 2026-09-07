@@ -57,6 +57,7 @@ function normalise(stored: Partial<Invitation>): Invitation {
 
 interface GuestRow {
   token: string;
+  ceremony_type: Invitation["ceremonyType"] | null;
   name: string;
   contact: string | null;
   group: string | null;
@@ -68,6 +69,7 @@ interface GuestRow {
 function toGuest(row: GuestRow): Guest {
   return {
     token: row.token,
+    ceremonyType: row.ceremony_type ?? "thanh-hon",
     name: row.name,
     contact: row.contact ?? "",
     group: row.group ?? "",
@@ -108,7 +110,7 @@ export async function listGuests(slug = SLUG): Promise<Guest[]> {
   if (usingFallback) return structuredClone(memory.guests);
   const { data, error } = await supabase()
     .from("guests")
-    .select("token, name, contact, group, attendees, message, status")
+    .select("token, ceremony_type, name, contact, group, attendees, message, status")
     .eq("invitation_slug", slug)
     .order("created_at", { ascending: true });
   if (error) throw new Error(error.message);
@@ -125,7 +127,7 @@ export async function getGuest(
   }
   const { data, error } = await supabase()
     .from("guests")
-    .select("token, name, contact, group, attendees, message, status")
+    .select("token, ceremony_type, name, contact, group, attendees, message, status")
     .eq("invitation_slug", slug)
     .eq("token", token)
     .maybeSingle();
@@ -158,6 +160,7 @@ export async function saveGuests(
   const { error } = await db.from("guests").upsert(
     value.map((g) => ({
       token: g.token,
+      ceremony_type: g.ceremonyType,
       invitation_slug: slug,
       name: g.name,
       contact: g.contact,

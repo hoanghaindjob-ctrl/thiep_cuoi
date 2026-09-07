@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import type { Guest } from "@/types/invitation";
+import type { Guest, Invitation } from "@/types/invitation";
 import { guestPath } from "@/lib/repository";
 import { Icon } from "@/components/ui/Icon";
 
@@ -11,9 +11,11 @@ const GOI_Y_NHOM = ["Nhà trai", "Nhà gái", "Bạn bè", "Gia đình", "Đồn
 export function GuestManager({
   initialGuests,
   slug,
+  defaultCeremonyType,
 }: {
   initialGuests: Guest[];
   slug: string;
+  defaultCeremonyType: Invitation["ceremonyType"];
 }) {
   const [guests, setGuests] = useState<Guest[]>(initialGuests);
   const [search, setSearch] = useState("");
@@ -112,6 +114,7 @@ export function GuestManager({
           onClick={() =>
             edit({
               token: crypto.randomUUID().replaceAll("-", ""),
+              ceremonyType: defaultCeremonyType,
               name: "",
               contact: "",
               group: nhomDaCo[0] ?? "Bạn bè",
@@ -192,6 +195,7 @@ export function GuestManager({
                 </th>
                 <th>Khách mời</th>
                 <th>Nhóm</th>
+                <th>Loại thiệp</th>
                 <th>Số chỗ</th>
                 <th>Thao tác</th>
               </tr>
@@ -223,6 +227,9 @@ export function GuestManager({
                     </div>
                   </td>
                   <td>{g.group}</td>
+                  <td>
+                    {g.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"}
+                  </td>
                   <td>{g.attendees}</td>
                   <td>
                     <div className="row-actions">
@@ -374,6 +381,22 @@ export function GuestManager({
                     })
                   }
                 />
+              </label>
+              <label className="field wide">
+                <span>Loại thiệp</span>
+                <select
+                  value={editing.ceremonyType}
+                  onChange={(e) =>
+                    setEditing({
+                      ...editing,
+                      ceremonyType: e.target.value as Guest["ceremonyType"],
+                    })
+                  }
+                >
+                  <option value="thanh-hon">Lễ thành hôn</option>
+                  <option value="vu-quy">Lễ vu quy</option>
+                </select>
+                <small>Liên kết của khách sẽ hiển thị đúng loại nghi lễ này.</small>
               </label>
               <label className="field wide">
                 <span>Lời nhắn riêng</span>

@@ -27,6 +27,7 @@ function looksLikeGuests(v: unknown): v is Guest[] {
     return (
       typeof x.token === "string" &&
       /^[A-Za-z0-9_-]{4,64}$/.test(x.token) &&
+      (x.ceremonyType === "thanh-hon" || x.ceremonyType === "vu-quy") &&
       typeof x.name === "string" &&
       x.name.trim().length > 0 &&
       typeof x.attendees === "number" &&

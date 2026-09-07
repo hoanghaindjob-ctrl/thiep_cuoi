@@ -74,6 +74,7 @@ export interface Invitation {
 export type RSVPStatus = "Awaiting reply" | "Attending" | "Declined";
 export interface Guest {
   token: string;
+  ceremonyType: Invitation["ceremonyType"];
   name: string;
   contact: string;
   group: string;
