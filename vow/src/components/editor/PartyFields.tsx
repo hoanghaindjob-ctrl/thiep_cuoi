@@ -1,36 +1,12 @@
-import type { CeremonyType } from "@/types/invitation";
 import type { EditorFieldsProps } from "./fieldTypes";
 import { Field } from "./Field";
 import { Icon } from "@/components/ui/Icon";
 
 export function PartyFields({ data, update, event }: EditorFieldsProps) {
-  void event;
   const suaMoc = (id: string, patch: Partial<(typeof data.timeline)[number]>) =>
     update({
       timeline: data.timeline.map((t) => (t.id === id ? { ...t, ...patch } : t)),
     });
-
-  const capNhatSuKien = (
-    ceremonyType: CeremonyType,
-    patch: Partial<(typeof data.ceremonyEvent)[CeremonyType]>,
-  ) => {
-    // Use the latest state for every keystroke. This is important for Vu Quy:
-    // rapid input events must not rebuild the object from a stale render and
-    // accidentally restore the default ceremony values.
-    update((current) => ({
-      ceremonyEvent: {
-        ...current.ceremonyEvent,
-        [ceremonyType]: { ...current.ceremonyEvent[ceremonyType], ...patch },
-      },
-      ceremonyContent: {
-        ...current.ceremonyContent,
-        [ceremonyType]: {
-          ...current.ceremonyContent[ceremonyType],
-          event: { ...current.ceremonyContent[ceremonyType].event, ...patch },
-        },
-      },
-    }));
-  };
 
   return (
     <>
@@ -46,93 +22,72 @@ export function PartyFields({ data, update, event }: EditorFieldsProps) {
       </div>
 
       <div className="form-divider" />
-      <div className="mini-heading">
-        <h3>Lễ thành hôn</h3>
-        <Icon name="pin" />
-      </div>
-      <p className="field-note">
-        Cài đặt ngày giờ và địa điểm cho bản thiệp “Lễ thành hôn”.
-      </p>
-      <div className="field-grid">
-        <Field
-          label="Ngày cưới"
-          type="date"
-          value={data.ceremonyEvent["thanh-hon"].date}
-          onChange={(v) => capNhatSuKien("thanh-hon", { date: v })}
-        />
-        <Field
-          label="Giờ đón khách"
-          type="time"
-          value={data.ceremonyEvent["thanh-hon"].time}
-          onChange={(v) => capNhatSuKien("thanh-hon", { time: v })}
-        />
-      </div>
-      <div className="field-grid">
-        <Field
-          wide
-          label="Tên địa điểm"
-          value={data.ceremonyEvent["thanh-hon"].venue}
-          onChange={(v) => capNhatSuKien("thanh-hon", { venue: v })}
-        />
-        <Field
-          wide
-          label="Địa chỉ"
-          value={data.ceremonyEvent["thanh-hon"].address}
-          onChange={(v) => capNhatSuKien("thanh-hon", { address: v })}
-          hint="Bản đồ nhúng trên thiệp tìm theo tên địa điểm và địa chỉ này."
-        />
-        <Field
-          wide
-          label="Liên kết Google Maps"
-          type="url"
-          value={data.ceremonyEvent["thanh-hon"].mapsUrl}
-          onChange={(v) => capNhatSuKien("thanh-hon", { mapsUrl: v })}
-          hint="Dùng cho nút “Chỉ đường”. Để trống thì nút sẽ ẩn."
-        />
+      <div className="ceremony-quick-switch">
+        <span>Đang sửa lịch tiệc cho:</span>
+        <div className="ceremony-switch-buttons">
+          <button
+            type="button"
+            className={`ceremony-btn ${data.ceremonyType === "thanh-hon" ? "active" : ""}`}
+            onClick={() => update({ ceremonyType: "thanh-hon" })}
+          >
+            Lễ thành hôn
+          </button>
+          <button
+            type="button"
+            className={`ceremony-btn ${data.ceremonyType === "vu-quy" ? "active" : ""}`}
+            onClick={() => update({ ceremonyType: "vu-quy" })}
+          >
+            Lễ vu quy
+          </button>
+        </div>
       </div>
 
-      <div className="form-divider" />
       <div className="mini-heading">
-        <h3>Lễ vu quy</h3>
+        <h3>
+          {data.ceremonyType === "vu-quy"
+            ? "Địa điểm & thời gian Lễ vu quy"
+            : "Địa điểm & thời gian Lễ thành hôn"}
+        </h3>
         <Icon name="pin" />
       </div>
       <p className="field-note">
-        Cài đặt ngày giờ và địa điểm cho bản thiệp “Lễ vu quy”.
+        Cài đặt ngày giờ và địa điểm cho bản thiệp “
+        {data.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"}”.
       </p>
       <div className="field-grid">
         <Field
           label="Ngày cưới"
           type="date"
-          value={data.ceremonyEvent["vu-quy"].date}
-          onChange={(v) => capNhatSuKien("vu-quy", { date: v })}
+          value={data.event.date}
+          onChange={(v) => event("date", v)}
         />
         <Field
           label="Giờ đón khách"
           type="time"
-          value={data.ceremonyEvent["vu-quy"].time}
-          onChange={(v) => capNhatSuKien("vu-quy", { time: v })}
+          value={data.event.time}
+          onChange={(v) => event("time", v)}
         />
       </div>
       <div className="field-grid">
         <Field
           wide
           label="Tên địa điểm"
-          value={data.ceremonyEvent["vu-quy"].venue}
-          onChange={(v) => capNhatSuKien("vu-quy", { venue: v })}
+          value={data.event.venue}
+          onChange={(v) => event("venue", v)}
         />
         <Field
           wide
           label="Địa chỉ"
-          value={data.ceremonyEvent["vu-quy"].address}
-          onChange={(v) => capNhatSuKien("vu-quy", { address: v })}
+          value={data.event.address}
+          onChange={(v) => event("address", v)}
           hint="Bản đồ nhúng trên thiệp tìm theo tên địa điểm và địa chỉ này."
         />
         <Field
           wide
           label="Liên kết Google Maps"
           type="url"
-          value={data.ceremonyEvent["vu-quy"].mapsUrl}
-          onChange={(v) => capNhatSuKien("vu-quy", { mapsUrl: v })}
+          value={data.event.mapsUrl}
+          onChange={(v) => event("mapsUrl", v)}
           hint="Dùng cho nút “Chỉ đường”. Để trống thì nút sẽ ẩn."
         />
       </div>

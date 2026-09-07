@@ -69,6 +69,7 @@ export interface CeremonyContent {
   gift: Gift;
   timeline: TimelineItem[];
   sections: InvitationSection[];
+  ceremonyText: CeremonyText;
 }
 export interface Invitation {
   slug: string;

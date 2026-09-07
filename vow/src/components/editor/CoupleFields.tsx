@@ -59,7 +59,7 @@ export function CoupleFields({ data, update, upload }: EditorFieldsProps) {
           onChange={(value) =>
             update({ ceremonyType: value === "Lễ vu quy" ? "vu-quy" : "thanh-hon" })
           }
-          hint="Thiệp dùng chung một mẫu; lựa chọn này chỉ đổi tên nghi lễ trong nội dung."
+          hint="Đổi loại thiệp sẽ tự động nạp lại toàn bộ dữ liệu của loại đó."
         />
         <Field
           label="Tên chú rể"
@@ -119,65 +119,53 @@ export function CoupleFields({ data, update, upload }: EditorFieldsProps) {
 
       <div className="form-divider" />
       <div className="mini-heading">
-        <h3>Nội dung theo loại thiệp</h3>
+        <h3>
+          Dòng chữ nghi lễ (
+          {data.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"})
+        </h3>
         <Icon name="edit" />
       </div>
       <p className="field-note">
-        Chỉnh thêm để hai mẫu cùng lúc có nội dung khác nhau.
+        Hiển thị ở đầu thiệp cho bản “
+        {data.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"}”. Đổi
+        loại thiệp ở trên để chỉnh cho bản khác.
       </p>
 
       <div className="field-grid">
         <Field
           wide
-          label="Lễ thành hôn — Dòng báo tin"
-          value={data.ceremonyText["thanh-hon"].announcementLine}
+          label="Dòng báo tin"
+          value={data.ceremonyText[data.ceremonyType]?.announcementLine ?? ""}
           onChange={(announcementLine) =>
-            updateCeremonyText("thanh-hon", { announcementLine })
+            updateCeremonyText(data.ceremonyType, { announcementLine })
           }
           placeholder="Ví dụ: Trân trọng báo tin"
         />
         <Field
           wide
-          label="Lễ thành hôn — Dòng lễ"
-          value={data.ceremonyText["thanh-hon"].noticeLine}
+          label="Dòng lễ"
+          value={data.ceremonyText[data.ceremonyType]?.noticeLine ?? ""}
           onChange={(noticeLine) =>
-            updateCeremonyText("thanh-hon", { noticeLine })
+            updateCeremonyText(data.ceremonyType, { noticeLine })
           }
-          placeholder="Ví dụ: lễ thành hôn của con chúng tôi"
-        />
-        <Field
-          wide
-          label="Lễ thành hôn — Dòng địa điểm"
-          value={data.ceremonyText["thanh-hon"].venueLine}
-          onChange={(venueLine) => updateCeremonyText("thanh-hon", { venueLine })}
-          placeholder="Ví dụ: Lễ thành hôn được cử hành tại"
-        />
-      </div>
-
-      <div className="form-divider" />
-      <div className="field-grid">
-        <Field
-          wide
-          label="Lễ vu quy — Dòng báo tin"
-          value={data.ceremonyText["vu-quy"].announcementLine}
-          onChange={(announcementLine) =>
-            updateCeremonyText("vu-quy", { announcementLine })
+          placeholder={
+            data.ceremonyType === "vu-quy"
+              ? "Ví dụ: lễ vu quy của gia đình chúng tôi"
+              : "Ví dụ: lễ thành hôn của con chúng tôi"
           }
-          placeholder="Ví dụ: Trân trọng báo tin"
         />
         <Field
           wide
-          label="Lễ vu quy — Dòng lễ"
-          value={data.ceremonyText["vu-quy"].noticeLine}
-          onChange={(noticeLine) => updateCeremonyText("vu-quy", { noticeLine })}
-          placeholder="Ví dụ: lễ vu quy của gia đình chúng tôi"
-        />
-        <Field
-          wide
-          label="Lễ vu quy — Dòng địa điểm"
-          value={data.ceremonyText["vu-quy"].venueLine}
-          onChange={(venueLine) => updateCeremonyText("vu-quy", { venueLine })}
-          placeholder="Ví dụ: Lễ vu quy được cử hành tại"
+          label="Dòng địa điểm"
+          value={data.ceremonyText[data.ceremonyType]?.venueLine ?? ""}
+          onChange={(venueLine) =>
+            updateCeremonyText(data.ceremonyType, { venueLine })
+          }
+          placeholder={
+            data.ceremonyType === "vu-quy"
+              ? "Ví dụ: Lễ vu quy được cử hành tại"
+              : "Ví dụ: Lễ thành hôn được cử hành tại"
+          }
         />
       </div>
     </>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GuestExperience } from "@/components/invitation/GuestExperience";
-import { getInvitation } from "@/lib/db";
-import type { Guest } from "@/types/invitation";
+import { getInvitation, withCeremonyType } from "@/lib/db";
+import type { CeremonyType, Guest } from "@/types/invitation";
 
 export const metadata = {
   title: "Xem trước thiệp · Vow",
@@ -21,8 +21,12 @@ const previewGuest: Guest = {
   message: "",
 };
 
-export default async function InvitationPreviewPage() {
-  const invitation = await getInvitation();
+export default async function InvitationPreviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string; open?: string }>;
+}) {
+  const [invitation, sp] = await Promise.all([getInvitation(), searchParams]);
   if (!invitation) {
     return (
       <div className="dang-mo" lang="vi">
@@ -32,11 +36,18 @@ export default async function InvitationPreviewPage() {
     );
   }
 
+  const requestedType: CeremonyType =
+    sp.type === "vu-quy"
+      ? "vu-quy"
+      : sp.type === "thanh-hon"
+        ? "thanh-hon"
+        : invitation.ceremonyType;
+
   return (
     <GuestExperience
-      invitation={invitation}
-      guest={previewGuest}
-      initialOpen
+      invitation={withCeremonyType(invitation, requestedType)}
+      guest={{ ...previewGuest, ceremonyType: requestedType }}
+      initialOpen={sp.open !== "0"}
     />
   );
 }

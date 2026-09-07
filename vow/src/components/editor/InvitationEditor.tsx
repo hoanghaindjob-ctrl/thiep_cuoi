@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import Link from "next/link";
-import type { Invitation } from "@/types/invitation";
+import type { CeremonyContent, CeremonyType, Invitation } from "@/types/invitation";
 import { InvitationCover } from "@/components/invitation/InvitationCover";
 import { Icon } from "@/components/ui/Icon";
 import type { UploadTarget } from "./fieldTypes";
@@ -10,11 +10,6 @@ import { FamilyFields } from "./FamilyFields";
 import { PartyFields } from "./PartyFields";
 import { AlbumFields } from "./AlbumFields";
 import { inspectImageUpload } from "@/lib/imageUpload";
-
-const CONTENT_KEYS = [
-  "title", "bride", "groom", "introduction", "message", "story",
-  "event", "families", "gift", "timeline", "sections",
-] as const;
 
 /** Tabs follow the order the guest meets these blocks on the invitation. */
 const TABS = [
@@ -34,28 +29,184 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
 
-  const update = (
-    patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
-  ) => {
+  const switchCeremony = (nextType: CeremonyType) => {
     setData((d) => {
-      const patchValue = typeof patch === "function" ? patch(d) : patch;
-      const nextType = patchValue.ceremonyType ?? d.ceremonyType;
-      const switched = nextType !== d.ceremonyType;
-      const target = d.ceremonyContent[nextType];
-      const base = switched ? { ...d, ...target, ceremonyType: nextType } : d;
-      const next = { ...base, ...patchValue };
-      const content = Object.fromEntries(
-        CONTENT_KEYS.map((key) => [key, structuredClone(next[key])]),
-      ) as unknown as Invitation["ceremonyContent"][typeof nextType];
-      next.ceremonyContent = {
-        ...next.ceremonyContent,
-        [nextType]: content,
+      if (nextType === d.ceremonyType) return d;
+
+      // 1. Pack all current active editable fields into the current ceremony's slot
+      const currentActiveContent: CeremonyContent = {
+        title: d.title,
+        bride: d.bride,
+        groom: d.groom,
+        introduction: d.introduction,
+        message: d.message,
+        story: d.story,
+        event: structuredClone(d.event),
+        families: structuredClone(d.families),
+        gift: structuredClone(d.gift),
+        timeline: structuredClone(d.timeline),
+        sections: structuredClone(d.sections),
+        ceremonyText: structuredClone(d.ceremonyText[d.ceremonyType]),
       };
+
+      const ceremonyContent = {
+        ...d.ceremonyContent,
+        [d.ceremonyType]: currentActiveContent,
+      };
+
+      // 2. Unpack target ceremony's slot into active fields
+      const target = ceremonyContent[nextType];
+
+      const next: Invitation = {
+        ...d,
+        ceremonyType: nextType,
+        ceremonyContent,
+        title: target.title,
+        bride: target.bride,
+        groom: target.groom,
+        introduction: target.introduction,
+        message: target.message,
+        story: target.story,
+        event: structuredClone(target.event),
+        families: structuredClone(target.families),
+        gift: structuredClone(target.gift),
+        timeline: structuredClone(target.timeline),
+        sections: structuredClone(target.sections),
+        ceremonyEvent: {
+          ...d.ceremonyEvent,
+          [d.ceremonyType]: structuredClone(d.event),
+          [nextType]: structuredClone(target.event),
+        },
+        ceremonyText: {
+          ...d.ceremonyText,
+          [d.ceremonyType]: structuredClone(d.ceremonyText[d.ceremonyType]),
+          [nextType]: structuredClone(target.ceremonyText),
+        },
+      };
+
       latestData.current = next;
       return next;
     });
     setSaved(false);
   };
+
+  const update = (
+    patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
+  ) => {
+    setData((d) => {
+      const patchValue = typeof patch === "function" ? patch(d) : patch;
+
+      // Check if patch wants to switch ceremonyType
+      if (patchValue.ceremonyType && patchValue.ceremonyType !== d.ceremonyType) {
+        const nextType = patchValue.ceremonyType;
+        const currentActiveContent: CeremonyContent = {
+          title: patchValue.title ?? d.title,
+          bride: patchValue.bride ?? d.bride,
+          groom: patchValue.groom ?? d.groom,
+          introduction: patchValue.introduction ?? d.introduction,
+          message: patchValue.message ?? d.message,
+          story: patchValue.story ?? d.story,
+          event: structuredClone(patchValue.event ?? d.event),
+          families: structuredClone(patchValue.families ?? d.families),
+          gift: structuredClone(patchValue.gift ?? d.gift),
+          timeline: structuredClone(patchValue.timeline ?? d.timeline),
+          sections: structuredClone(patchValue.sections ?? d.sections),
+          ceremonyText: structuredClone(
+            patchValue.ceremonyText?.[d.ceremonyType] ??
+              d.ceremonyText[d.ceremonyType],
+          ),
+        };
+
+        const ceremonyContent = {
+          ...d.ceremonyContent,
+          [d.ceremonyType]: currentActiveContent,
+        };
+
+        const target = ceremonyContent[nextType];
+
+        const next: Invitation = {
+          ...d,
+          ...patchValue,
+          ceremonyType: nextType,
+          ceremonyContent,
+          title: target.title,
+          bride: target.bride,
+          groom: target.groom,
+          introduction: target.introduction,
+          message: target.message,
+          story: target.story,
+          event: structuredClone(target.event),
+          families: structuredClone(target.families),
+          gift: structuredClone(target.gift),
+          timeline: structuredClone(target.timeline),
+          sections: structuredClone(target.sections),
+          ceremonyEvent: {
+            ...d.ceremonyEvent,
+            [d.ceremonyType]: structuredClone(patchValue.event ?? d.event),
+            [nextType]: structuredClone(target.event),
+          },
+          ceremonyText: {
+            ...d.ceremonyText,
+            [d.ceremonyType]: structuredClone(
+              patchValue.ceremonyText?.[d.ceremonyType] ??
+                d.ceremonyText[d.ceremonyType],
+            ),
+            [nextType]: structuredClone(target.ceremonyText),
+          },
+        };
+        latestData.current = next;
+        return next;
+      }
+
+      // Normal field update within the active ceremony:
+      const curType = d.ceremonyType;
+      const next: Invitation = {
+        ...d,
+        ...patchValue,
+      };
+
+      // Keep active event & ceremonyEvent in sync
+      if (patchValue.event) {
+        next.ceremonyEvent = {
+          ...next.ceremonyEvent,
+          [curType]: structuredClone(patchValue.event),
+        };
+      } else if (patchValue.ceremonyEvent?.[curType]) {
+        next.event = structuredClone(patchValue.ceremonyEvent[curType]);
+      }
+
+      // Keep ceremonyText in sync
+      if (patchValue.ceremonyText?.[curType]) {
+        // already in next.ceremonyText
+      }
+
+      // Synchronize the current ceremony's full content in ceremonyContent
+      const activeContent: CeremonyContent = {
+        title: next.title,
+        bride: next.bride,
+        groom: next.groom,
+        introduction: next.introduction,
+        message: next.message,
+        story: next.story,
+        event: structuredClone(next.event),
+        families: structuredClone(next.families),
+        gift: structuredClone(next.gift),
+        timeline: structuredClone(next.timeline),
+        sections: structuredClone(next.sections),
+        ceremonyText: structuredClone(next.ceremonyText[curType]),
+      };
+
+      next.ceremonyContent = {
+        ...next.ceremonyContent,
+        [curType]: activeContent,
+      };
+
+      latestData.current = next;
+      return next;
+    });
+    setSaved(false);
+  };
+
   const event = (key: keyof Invitation["event"], value: string) =>
     update({ event: { ...data.event, [key]: value } });
 
@@ -136,7 +287,7 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
     }
   }
 
-  const previewUrl = "/xem-thiep";
+  const previewUrl = `/xem-thiep?type=${data.ceremonyType}`;
   const props = { data, update, event, upload };
 
   return (
@@ -164,6 +315,37 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
 
       <div className="editor-grid">
         <section className="form-area">
+          <div className="ceremony-banner">
+            <div className="ceremony-banner-info">
+              <span className="ceremony-banner-label">Đang chỉnh sửa:</span>
+              <strong className="ceremony-banner-title">
+                {data.ceremonyType === "vu-quy"
+                  ? "Lễ vu quy (Nhà gái)"
+                  : "Lễ thành hôn (Nhà trai)"}
+              </strong>
+            </div>
+            <div
+              className="ceremony-switch-buttons"
+              role="group"
+              aria-label="Chọn loại thiệp"
+            >
+              <button
+                type="button"
+                className={`ceremony-btn ${data.ceremonyType === "thanh-hon" ? "active" : ""}`}
+                onClick={() => switchCeremony("thanh-hon")}
+              >
+                Lễ thành hôn
+              </button>
+              <button
+                type="button"
+                className={`ceremony-btn ${data.ceremonyType === "vu-quy" ? "active" : ""}`}
+                onClick={() => switchCeremony("vu-quy")}
+              >
+                Lễ vu quy
+              </button>
+            </div>
+          </div>
+
           <div className="editor-tabs" role="tablist" aria-label="Phần nội dung">
             {TABS.map((t, i) => (
               <button
@@ -211,7 +393,8 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
           <div className="preview-toolbar">
             <span>
               <span className="green-dot" />
-              XEM TRƯỚC
+              XEM TRƯỚC ·{" "}
+              {data.ceremonyType === "vu-quy" ? "LỄ VU QUY" : "LỄ THÀNH HÔN"}
             </span>
           </div>
           <div className="phone-frame">
@@ -221,21 +404,21 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
               guestName="Anh & Tú"
               preview
               onOpen={() => {
-                // The guest page reads from the server, so it must be saved
-                // before the new tab can show the change.
                 void save().then((ok) => {
                   if (ok) window.open(previewUrl, "_blank", "noopener,noreferrer");
                 });
               }}
             />
           </div>
-          <p className="preview-caption">Bìa thiệp khách sẽ thấy đầu tiên.</p>
+          <p className="preview-caption">
+            Bìa thiệp {data.ceremonyType === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn"} khách sẽ thấy đầu tiên.
+          </p>
           <Link
             href={previewUrl}
             target="_blank"
             className="preview-link"
-            onClick={(event) => {
-              event.preventDefault();
+            onClick={(e) => {
+              e.preventDefault();
               void save().then((ok) => {
                 if (ok) window.open(previewUrl, "_blank", "noopener,noreferrer");
               });

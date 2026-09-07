@@ -222,9 +222,75 @@ svg {
   background: var(--white);
   overflow: hidden;
 }
+.ceremony-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #f7f8f4;
+  border-bottom: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ceremony-banner-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.ceremony-banner-label {
+  color: #7b8071;
+  font-size: 11px;
+}
+.ceremony-banner-title {
+  color: #31382b;
+  font-weight: 600;
+  font-size: 12px;
+}
+.ceremony-switch-buttons {
+  display: inline-flex;
+  background: #eaede3;
+  padding: 3px;
+  border-radius: 6px;
+  gap: 2px;
+}
+.ceremony-btn {
+  padding: 6px 14px;
+  font-size: 11px;
+  border-radius: 4px;
+  color: #5c6352;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.ceremony-btn:hover {
+  color: #272d22;
+}
+.ceremony-btn.active {
+  background: var(--white);
+  color: #272d22;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.ceremony-quick-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #f8f9f5;
+  border: 1px dashed #d5d8cd;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ceremony-quick-switch span {
+  font-size: 11px;
+  color: #69705e;
+  font-weight: 500;
+}
 .editor-tabs {
   display: flex;
-  border-block: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   padding: 0 20px;
   gap: 15px;
 }

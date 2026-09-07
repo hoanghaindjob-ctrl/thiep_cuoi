@@ -1,6 +1,6 @@
 import { invitation as seedInvitation } from "@/mocks/invitation";
 import { guests as seedGuests } from "@/mocks/guests";
-import type { Guest, Invitation } from "@/types/invitation";
+import type { CeremonyContent, Guest, Invitation } from "@/types/invitation";
 import { supabase, supabaseConfigured } from "./supabase";
 
 /**
@@ -36,8 +36,25 @@ export function withCeremonyType(
   invitation: Invitation,
   ceremonyType: Invitation["ceremonyType"],
 ): Invitation {
-  const content = invitation.ceremonyContent[ceremonyType];
-  return { ...invitation, ...structuredClone(content), ceremonyType };
+  const content = invitation.ceremonyContent?.[ceremonyType];
+  if (!content) {
+    return { ...invitation, ceremonyType };
+  }
+  return {
+    ...invitation,
+    ...structuredClone(content),
+    ceremonyType,
+    ceremonyEvent: {
+      ...invitation.ceremonyEvent,
+      [ceremonyType]: structuredClone(content.event),
+    },
+    ceremonyText: {
+      ...invitation.ceremonyText,
+      [ceremonyType]: structuredClone(
+        content.ceremonyText ?? invitation.ceremonyText?.[ceremonyType],
+      ),
+    },
+  };
 }
 
 /**
@@ -46,51 +63,100 @@ export function withCeremonyType(
  */
 function normalise(stored: Partial<Invitation>): Invitation {
   const seed = seedInvitation;
-  // Legacy rows only have the shared `event` field. Use it for the default
-  // ceremony, but never use one ceremony's values as the other's fallback.
-  const legacyEvent = { ...seed.event, ...stored.event };
   const ceremonyType: Invitation["ceremonyType"] =
     stored.ceremonyType === "vu-quy" ? "vu-quy" : "thanh-hon";
-  const legacyContent = {
-    title: stored.title ?? seed.title,
-    bride: stored.bride ?? seed.bride,
-    groom: stored.groom ?? seed.groom,
-    introduction: stored.introduction ?? seed.introduction,
-    message: stored.message ?? seed.message,
-    story: stored.story ?? seed.story,
-    event: legacyEvent,
-    families: {
-      groom: { ...seed.families.groom, ...stored.families?.groom },
-      bride: { ...seed.families.bride, ...stored.families?.bride },
-    },
-    gift: {
-      note: stored.gift?.note ?? seed.gift.note,
-      accounts: stored.gift?.accounts ?? structuredClone(seed.gift.accounts),
-    },
-    timeline: stored.timeline ?? structuredClone(seed.timeline),
-    sections: stored.sections ?? structuredClone(seed.sections),
+
+  const legacyEvent = { ...seed.event, ...stored.event };
+
+  const normaliseCeremony = (
+    cType: Invitation["ceremonyType"],
+  ): CeremonyContent => {
+    const seedContent = seed.ceremonyContent[cType];
+    const storedContent = stored.ceremonyContent?.[cType];
+    const isActive = cType === ceremonyType;
+
+    const baseEvent =
+      cType === "vu-quy"
+        ? seed.ceremonyEvent["vu-quy"]
+        : { ...seed.ceremonyEvent["thanh-hon"], ...legacyEvent };
+
+    const event = {
+      ...seedContent.event,
+      ...baseEvent,
+      ...(stored.ceremonyEvent?.[cType] ?? {}),
+      ...(isActive && stored.event ? stored.event : {}),
+      ...(storedContent?.event ?? {}),
+    };
+
+    const ceremonyText = {
+      ...seedContent.ceremonyText,
+      ...(stored.ceremonyText?.[cType] ?? {}),
+      ...(storedContent?.ceremonyText ?? {}),
+    };
+
+    const families = {
+      groom: {
+        ...seedContent.families.groom,
+        ...(storedContent?.families?.groom ??
+          (isActive ? stored.families?.groom : {})),
+      },
+      bride: {
+        ...seedContent.families.bride,
+        ...(storedContent?.families?.bride ??
+          (isActive ? stored.families?.bride : {})),
+      },
+    };
+
+    const gift = {
+      note:
+        storedContent?.gift?.note ??
+        (isActive ? stored.gift?.note : undefined) ??
+        seedContent.gift.note,
+      accounts:
+        storedContent?.gift?.accounts ??
+        (isActive ? stored.gift?.accounts : undefined) ??
+        structuredClone(seedContent.gift.accounts),
+    };
+
+    const timeline =
+      storedContent?.timeline ??
+      (isActive ? stored.timeline : undefined) ??
+      structuredClone(seedContent.timeline);
+
+    const sections =
+      storedContent?.sections ??
+      (isActive ? stored.sections : undefined) ??
+      structuredClone(seedContent.sections);
+
+    return {
+      title: storedContent?.title ?? stored.title ?? seedContent.title,
+      bride: storedContent?.bride ?? stored.bride ?? seedContent.bride,
+      groom: storedContent?.groom ?? stored.groom ?? seedContent.groom,
+      introduction:
+        storedContent?.introduction ??
+        stored.introduction ??
+        seedContent.introduction,
+      message:
+        storedContent?.message ??
+        (isActive ? stored.message : undefined) ??
+        seedContent.message,
+      story: storedContent?.story ?? stored.story ?? seedContent.story,
+      event,
+      families,
+      gift,
+      timeline,
+      sections,
+      ceremonyText,
+    };
   };
+
   const ceremonyContent = {
-    "thanh-hon": {
-      ...structuredClone(legacyContent),
-      ...stored.ceremonyContent?.["thanh-hon"],
-      event: {
-        ...legacyEvent,
-        ...stored.ceremonyEvent?.["thanh-hon"],
-        ...stored.ceremonyContent?.["thanh-hon"]?.event,
-      },
-    },
-    "vu-quy": {
-      ...structuredClone(legacyContent),
-      ...stored.ceremonyContent?.["vu-quy"],
-      event: {
-        ...seed.ceremonyEvent["vu-quy"],
-        ...stored.ceremonyEvent?.["vu-quy"],
-        ...stored.ceremonyContent?.["vu-quy"]?.event,
-      },
-    },
+    "thanh-hon": normaliseCeremony("thanh-hon"),
+    "vu-quy": normaliseCeremony("vu-quy"),
   };
+
   const active = ceremonyContent[ceremonyType];
+
   return {
     ...seed,
     ...stored,
@@ -98,29 +164,18 @@ function normalise(stored: Partial<Invitation>): Invitation {
     ceremonyContent,
     ...active,
     ceremonyEvent: {
-      "thanh-hon": {
-        ...seed.ceremonyEvent["thanh-hon"],
-        ...legacyEvent,
-        ...stored.ceremonyEvent?.["thanh-hon"],
-      },
-      "vu-quy": {
-        ...seed.ceremonyEvent["vu-quy"],
-        ...stored.ceremonyEvent?.["vu-quy"],
-      },
+      "thanh-hon": structuredClone(ceremonyContent["thanh-hon"].event),
+      "vu-quy": structuredClone(ceremonyContent["vu-quy"].event),
+    },
+    ceremonyText: {
+      "thanh-hon": structuredClone(ceremonyContent["thanh-hon"].ceremonyText),
+      "vu-quy": structuredClone(ceremonyContent["vu-quy"].ceremonyText),
     },
     gallery: stored.gallery ?? structuredClone(seed.gallery),
-    timeline: stored.timeline ?? structuredClone(seed.timeline),
-    sections: stored.sections ?? structuredClone(seed.sections),
-    ceremonyText: {
-      "thanh-hon": {
-        ...seed.ceremonyText["thanh-hon"],
-        ...stored.ceremonyText?.["thanh-hon"],
-      },
-      "vu-quy": {
-        ...seed.ceremonyText["vu-quy"],
-        ...stored.ceremonyText?.["vu-quy"],
-      },
-    },
+    music: stored.music ?? seed.music,
+    hero: stored.hero ?? seed.hero,
+    groomPhoto: stored.groomPhoto ?? seed.groomPhoto,
+    bridePhoto: stored.bridePhoto ?? seed.bridePhoto,
   };
 }
 

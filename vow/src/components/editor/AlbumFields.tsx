@@ -112,7 +112,13 @@ export function AlbumFields({ data, update, upload }: EditorFieldsProps) {
       </div>
       {data.sections.map((s) => (
         <label className="section-toggle" key={s.id}>
-          <span>{s.title}</span>
+          <span>
+            {s.id === "0"
+              ? data.ceremonyType === "vu-quy"
+                ? "Lễ vu quy"
+                : "Lễ thành hôn"
+              : s.title}
+          </span>
           <input
             type="checkbox"
             checked={s.enabled}

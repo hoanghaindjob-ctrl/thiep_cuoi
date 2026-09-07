@@ -145,7 +145,7 @@ const sharedInvitation = {
   ],
 };
 
-const contentFor = (event: Invitation["event"]) => ({
+const contentFor = (type: CeremonyType, event: Invitation["event"]) => ({
   title: sharedInvitation.title,
   bride: sharedInvitation.bride,
   groom: sharedInvitation.groom,
@@ -156,13 +156,18 @@ const contentFor = (event: Invitation["event"]) => ({
   families: structuredClone(sharedInvitation.families),
   gift: structuredClone(sharedInvitation.gift),
   timeline: structuredClone(sharedInvitation.timeline),
-  sections: structuredClone(sharedInvitation.sections),
+  sections: sharedInvitation.sections.map((s) =>
+    s.id === "0"
+      ? { ...s, title: type === "vu-quy" ? "Lễ vu quy" : "Lễ thành hôn" }
+      : { ...s },
+  ),
+  ceremonyText: structuredClone(sharedInvitation.ceremonyText[type]),
 });
 
 export const invitation: Invitation = {
   ...sharedInvitation,
   ceremonyContent: {
-    "thanh-hon": contentFor(sharedInvitation.ceremonyEvent["thanh-hon"]),
-    "vu-quy": contentFor(sharedInvitation.ceremonyEvent["vu-quy"]),
+    "thanh-hon": contentFor("thanh-hon", sharedInvitation.ceremonyEvent["thanh-hon"]),
+    "vu-quy": contentFor("vu-quy", sharedInvitation.ceremonyEvent["vu-quy"]),
   },
 };
