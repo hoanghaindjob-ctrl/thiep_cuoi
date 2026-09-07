@@ -1046,6 +1046,11 @@ td {
   padding: 24px;
   background: var(--paper);
 }
+.gift-account-editor {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
 .dang-nhap form {
   width: 100%;
   max-width: 340px;

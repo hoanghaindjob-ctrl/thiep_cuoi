@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { EditorFieldsProps } from "./fieldTypes";
 import { Field } from "./Field";
 import { Icon } from "@/components/ui/Icon";
+import { GiftFields } from "./GiftFields";
 
 export function AlbumFields({ data, update, upload }: EditorFieldsProps) {
   return (
@@ -101,6 +102,8 @@ export function AlbumFields({ data, update, upload }: EditorFieldsProps) {
       {data.music && (
         <audio controls src={data.music} className="audio-preview" />
       )}
+
+      <GiftFields data={data} update={update} />
 
       <div className="form-divider" />
       <div className="mini-heading">

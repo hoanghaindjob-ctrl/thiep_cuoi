@@ -816,6 +816,98 @@
   color: var(--muc-mo);
 }
 
+/* ── Mừng cưới ────────────────────────────────────────────────── */
+
+.mung-cuoi {
+  padding: var(--s7) var(--s4) var(--s8);
+}
+.mung-cuoi-khung {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--s7) var(--s4);
+  border: 1px solid rgba(201, 162, 74, 0.5);
+  border-radius: var(--r-the);
+  text-align: center;
+  background: var(--muc);
+  color: var(--kem);
+}
+.mung-cuoi-khung .tieu-de {
+  color: var(--kem);
+}
+.mung-cuoi-khung .hoa-van {
+  color: var(--vang);
+}
+.mung-cuoi-loi {
+  max-width: 42ch;
+  margin: var(--s4) auto 0;
+  color: var(--kem-mo);
+}
+.mung-cuoi-danh-sach {
+  display: grid;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+.mung-cuoi-danh-sach.hai-tai-khoan {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mung-cuoi-danh-sach.hai-tai-khoan .mung-cuoi-tai-khoan {
+  padding: var(--s3);
+}
+.mung-cuoi-danh-sach.hai-tai-khoan .mung-cuoi-tai-khoan dl > div {
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+.mung-cuoi-danh-sach.hai-tai-khoan .mung-cuoi-tai-khoan dd {
+  text-align: left;
+}
+.mung-cuoi-danh-sach.hai-tai-khoan .so-tai-khoan dd {
+  font-size: clamp(16px, 4.5vw, var(--t-xl));
+}
+.mung-cuoi-tai-khoan {
+  padding: var(--s4);
+  border: 1px solid rgba(201, 162, 74, 0.38);
+  border-radius: var(--r);
+  text-align: left;
+  background: var(--muc-nhat);
+}
+.mung-cuoi-tai-khoan h3 {
+  margin-bottom: var(--s3);
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  font-weight: 400;
+  color: var(--vang);
+}
+.mung-cuoi-tai-khoan dl,
+.mung-cuoi-tai-khoan dd {
+  margin: 0;
+}
+.mung-cuoi-tai-khoan dl > div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: var(--s2);
+  padding: 5px 0;
+}
+.mung-cuoi-tai-khoan dt {
+  font-size: var(--t-xs);
+  color: var(--kem-mo);
+}
+.mung-cuoi-tai-khoan dd {
+  overflow-wrap: anywhere;
+  font-size: var(--t-sm);
+  text-align: right;
+  color: var(--kem);
+}
+.mung-cuoi-tai-khoan .so-tai-khoan {
+  margin-top: var(--s2);
+  padding-top: var(--s2);
+  border-top: 1px solid rgba(201, 162, 74, 0.3);
+}
+.mung-cuoi-tai-khoan .so-tai-khoan dd {
+  font-family: var(--chu-hoa);
+  font-size: var(--t-xl);
+  letter-spacing: 0.04em;
+}
+
 /* ── Trân trọng cảm ơn ────────────────────────────────────────── */
 
 .cam-on {

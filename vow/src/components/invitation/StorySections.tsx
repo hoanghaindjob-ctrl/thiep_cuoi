@@ -273,6 +273,44 @@ export function EventTimeline({ data }: { data: Invitation }) {
   );
 }
 
+export function WeddingGift({ data }: { data: Invitation }) {
+  const accounts = data.gift.accounts.filter((account) => account.number.trim());
+  if (!accounts.length) return null;
+
+  return (
+    <section className="mung-cuoi">
+      <Reveal className="mung-cuoi-khung" variant="hien">
+        <h2 className="tieu-de">Mừng cưới</h2>
+        <Divider />
+        {data.gift.note && <p className="mung-cuoi-loi">{data.gift.note}</p>}
+        <div
+          className={`mung-cuoi-danh-sach${accounts.length === 2 ? " hai-tai-khoan" : ""}`}
+        >
+          {accounts.map((account) => (
+            <article key={account.id} className="mung-cuoi-tai-khoan">
+              <h3>{account.side}</h3>
+              <dl>
+                <div>
+                  <dt>Ngân hàng</dt>
+                  <dd>{account.bank || "—"}</dd>
+                </div>
+                <div>
+                  <dt>Chủ tài khoản</dt>
+                  <dd>{account.holder || "—"}</dd>
+                </div>
+                <div className="so-tai-khoan">
+                  <dt>Số tài khoản</dt>
+                  <dd>{account.number}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 export function PhotoAlbum({ data }: { data: Invitation }) {
   return (
     <section className="album">

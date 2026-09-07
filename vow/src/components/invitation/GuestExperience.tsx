@@ -10,6 +10,7 @@ import {
   ReceptionCard,
   VenueSection,
   EventTimeline,
+  WeddingGift,
   PhotoAlbum,
   ThankYou,
   InvitationClosing,
@@ -109,6 +110,7 @@ export function GuestExperience({
         )}
         {enabled("Album ảnh") && <PhotoAlbum data={data} />}
         {enabled("Lịch trình ngày cưới") && <EventTimeline data={data} />}
+        <WeddingGift data={data} />
         <ThankYou data={data} />
         <InvitationClosing data={data} />
       </div>
