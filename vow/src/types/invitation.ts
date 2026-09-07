@@ -56,12 +56,28 @@ export interface Gift {
   note: string;
   accounts: GiftAccount[];
 }
+/** Everything that can differ between the two ceremonies. Media stays shared. */
+export interface CeremonyContent {
+  title: string;
+  bride: string;
+  groom: string;
+  introduction: string;
+  message: string;
+  story: string;
+  event: EventDetails;
+  families: Families;
+  gift: Gift;
+  timeline: TimelineItem[];
+  sections: InvitationSection[];
+}
 export interface Invitation {
   slug: string;
   /** Cho phép dùng cùng một mẫu cho lễ nhà trai hoặc lễ nhà gái. */
   ceremonyType: CeremonyType;
   ceremonyText: Record<CeremonyType, CeremonyText>;
   ceremonyEvent: Record<CeremonyType, EventDetails>;
+  /** Per-ceremony copy of all editable text/data. Images and music are shared. */
+  ceremonyContent: Record<CeremonyType, CeremonyContent>;
   title: string;
   bride: string;
   groom: string;

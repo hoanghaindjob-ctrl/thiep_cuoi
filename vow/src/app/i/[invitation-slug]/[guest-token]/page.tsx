@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { GuestExperience } from "@/components/invitation/GuestExperience";
-import { getGuest, getInvitation } from "@/lib/db";
+import { getGuest, getInvitation, withCeremonyType } from "@/lib/db";
 
 export const metadata = {
   title: "Thiệp mời · Vow",
@@ -38,7 +38,7 @@ export default async function InvitationPage({
 
   return (
     <GuestExperience
-      invitation={{ ...invitation, ceremonyType: guest.ceremonyType }}
+      invitation={withCeremonyType(invitation, guest.ceremonyType)}
       guest={guest}
       initialOpen={q.open === "1"}
     />

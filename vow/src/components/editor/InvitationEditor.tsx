@@ -11,6 +11,11 @@ import { PartyFields } from "./PartyFields";
 import { AlbumFields } from "./AlbumFields";
 import { inspectImageUpload } from "@/lib/imageUpload";
 
+const CONTENT_KEYS = [
+  "title", "bride", "groom", "introduction", "message", "story",
+  "event", "families", "gift", "timeline", "sections",
+] as const;
+
 /** Tabs follow the order the guest meets these blocks on the invitation. */
 const TABS = [
   { ten: "Cặp đôi & ảnh", mo: "Tên, lời dẫn và ảnh của hai bạn." },
@@ -33,7 +38,19 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
     patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
   ) => {
     setData((d) => {
-      const next = { ...d, ...(typeof patch === "function" ? patch(d) : patch) };
+      const patchValue = typeof patch === "function" ? patch(d) : patch;
+      const nextType = patchValue.ceremonyType ?? d.ceremonyType;
+      const switched = nextType !== d.ceremonyType;
+      const target = d.ceremonyContent[nextType];
+      const base = switched ? { ...d, ...target, ceremonyType: nextType } : d;
+      const next = { ...base, ...patchValue };
+      const content = Object.fromEntries(
+        CONTENT_KEYS.map((key) => [key, structuredClone(next[key])]),
+      ) as unknown as Invitation["ceremonyContent"][typeof nextType];
+      next.ceremonyContent = {
+        ...next.ceremonyContent,
+        [nextType]: content,
+      };
       latestData.current = next;
       return next;
     });

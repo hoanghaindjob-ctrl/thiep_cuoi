@@ -22,6 +22,13 @@ export function PartyFields({ data, update, event }: EditorFieldsProps) {
         ...current.ceremonyEvent,
         [ceremonyType]: { ...current.ceremonyEvent[ceremonyType], ...patch },
       },
+      ceremonyContent: {
+        ...current.ceremonyContent,
+        [ceremonyType]: {
+          ...current.ceremonyContent[ceremonyType],
+          event: { ...current.ceremonyContent[ceremonyType].event, ...patch },
+        },
+      },
     }));
   };
 

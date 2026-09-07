@@ -31,6 +31,15 @@ const memory = (globalThis.__vowFallback ??= {
 
 export const usingFallback = !supabaseConfigured;
 
+/** Selects the complete ceremony-specific content while retaining shared media. */
+export function withCeremonyType(
+  invitation: Invitation,
+  ceremonyType: Invitation["ceremonyType"],
+): Invitation {
+  const content = invitation.ceremonyContent[ceremonyType];
+  return { ...invitation, ...structuredClone(content), ceremonyType };
+}
+
 /**
  * Rows written before a field existed come back missing it. Fill every gap
  * from the seed so a saved invitation never renders `undefined`.
@@ -42,11 +51,14 @@ function normalise(stored: Partial<Invitation>): Invitation {
   const legacyEvent = { ...seed.event, ...stored.event };
   const ceremonyType: Invitation["ceremonyType"] =
     stored.ceremonyType === "vu-quy" ? "vu-quy" : "thanh-hon";
-  return {
-    ...seed,
-    ...stored,
-    ceremonyType,
-    event: { ...seed.event, ...stored.event },
+  const legacyContent = {
+    title: stored.title ?? seed.title,
+    bride: stored.bride ?? seed.bride,
+    groom: stored.groom ?? seed.groom,
+    introduction: stored.introduction ?? seed.introduction,
+    message: stored.message ?? seed.message,
+    story: stored.story ?? seed.story,
+    event: legacyEvent,
     families: {
       groom: { ...seed.families.groom, ...stored.families?.groom },
       bride: { ...seed.families.bride, ...stored.families?.bride },
@@ -55,6 +67,36 @@ function normalise(stored: Partial<Invitation>): Invitation {
       note: stored.gift?.note ?? seed.gift.note,
       accounts: stored.gift?.accounts ?? structuredClone(seed.gift.accounts),
     },
+    timeline: stored.timeline ?? structuredClone(seed.timeline),
+    sections: stored.sections ?? structuredClone(seed.sections),
+  };
+  const ceremonyContent = {
+    "thanh-hon": {
+      ...structuredClone(legacyContent),
+      ...stored.ceremonyContent?.["thanh-hon"],
+      event: {
+        ...legacyEvent,
+        ...stored.ceremonyEvent?.["thanh-hon"],
+        ...stored.ceremonyContent?.["thanh-hon"]?.event,
+      },
+    },
+    "vu-quy": {
+      ...structuredClone(legacyContent),
+      ...stored.ceremonyContent?.["vu-quy"],
+      event: {
+        ...seed.ceremonyEvent["vu-quy"],
+        ...stored.ceremonyEvent?.["vu-quy"],
+        ...stored.ceremonyContent?.["vu-quy"]?.event,
+      },
+    },
+  };
+  const active = ceremonyContent[ceremonyType];
+  return {
+    ...seed,
+    ...stored,
+    ceremonyType,
+    ceremonyContent,
+    ...active,
     ceremonyEvent: {
       "thanh-hon": {
         ...seed.ceremonyEvent["thanh-hon"],

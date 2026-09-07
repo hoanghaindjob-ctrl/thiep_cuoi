@@ -1,7 +1,7 @@
-import type { Invitation } from "@/types/invitation";
-export const invitation: Invitation = {
+import type { CeremonyType, Invitation } from "@/types/invitation";
+const sharedInvitation = {
   slug: "linh-and-minh",
-  ceremonyType: "thanh-hon",
+  ceremonyType: "thanh-hon" as CeremonyType,
   ceremonyText: {
     "thanh-hon": {
       announcementLine: "Trân trọng báo tin",
@@ -143,4 +143,26 @@ export const invitation: Invitation = {
     { id: "4", title: "Album ảnh", enabled: true },
     { id: "3", title: "Lịch trình ngày cưới", enabled: true },
   ],
+};
+
+const contentFor = (event: Invitation["event"]) => ({
+  title: sharedInvitation.title,
+  bride: sharedInvitation.bride,
+  groom: sharedInvitation.groom,
+  introduction: sharedInvitation.introduction,
+  message: sharedInvitation.message,
+  story: sharedInvitation.story,
+  event: structuredClone(event),
+  families: structuredClone(sharedInvitation.families),
+  gift: structuredClone(sharedInvitation.gift),
+  timeline: structuredClone(sharedInvitation.timeline),
+  sections: structuredClone(sharedInvitation.sections),
+});
+
+export const invitation: Invitation = {
+  ...sharedInvitation,
+  ceremonyContent: {
+    "thanh-hon": contentFor(sharedInvitation.ceremonyEvent["thanh-hon"]),
+    "vu-quy": contentFor(sharedInvitation.ceremonyEvent["vu-quy"]),
+  },
 };
