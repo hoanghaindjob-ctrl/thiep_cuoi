@@ -37,7 +37,9 @@ export const usingFallback = !supabaseConfigured;
  */
 function normalise(stored: Partial<Invitation>): Invitation {
   const seed = seedInvitation;
-  const baseEvent = { ...seed.event, ...stored.event };
+  // Legacy rows only have the shared `event` field. Use it for the default
+  // ceremony, but never use one ceremony's values as the other's fallback.
+  const legacyEvent = { ...seed.event, ...stored.event };
   const ceremonyType: Invitation["ceremonyType"] =
     stored.ceremonyType === "vu-quy" ? "vu-quy" : "thanh-hon";
   return {
@@ -55,11 +57,12 @@ function normalise(stored: Partial<Invitation>): Invitation {
     },
     ceremonyEvent: {
       "thanh-hon": {
-        ...baseEvent,
+        ...seed.ceremonyEvent["thanh-hon"],
+        ...legacyEvent,
         ...stored.ceremonyEvent?.["thanh-hon"],
       },
       "vu-quy": {
-        ...baseEvent,
+        ...seed.ceremonyEvent["vu-quy"],
         ...stored.ceremonyEvent?.["vu-quy"],
       },
     },
