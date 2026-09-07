@@ -10,7 +10,9 @@ export type UploadTarget =
 
 export interface EditorFieldsProps {
   data: Invitation;
-  update: (patch: Partial<Invitation>) => void;
+  update: (
+    patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
+  ) => void;
   event: (key: keyof Invitation["event"], value: string) => void;
   upload: (file: File | undefined, target: UploadTarget) => Promise<void>;
 }

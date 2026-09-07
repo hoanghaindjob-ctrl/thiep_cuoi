@@ -14,12 +14,15 @@ export function PartyFields({ data, update, event }: EditorFieldsProps) {
     ceremonyType: CeremonyType,
     patch: Partial<(typeof data.ceremonyEvent)[CeremonyType]>,
   ) => {
-    update({
+    // Use the latest state for every keystroke. This is important for Vu Quy:
+    // rapid input events must not rebuild the object from a stale render and
+    // accidentally restore the default ceremony values.
+    update((current) => ({
       ceremonyEvent: {
-        ...data.ceremonyEvent,
-        [ceremonyType]: { ...data.ceremonyEvent[ceremonyType], ...patch },
+        ...current.ceremonyEvent,
+        [ceremonyType]: { ...current.ceremonyEvent[ceremonyType], ...patch },
       },
-    });
+    }));
   };
 
   return (

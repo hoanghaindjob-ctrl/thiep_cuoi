@@ -28,8 +28,10 @@ export function InvitationEditor({ initial }: { initial: Invitation }) {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
 
-  const update = (patch: Partial<Invitation>) => {
-    setData((d) => ({ ...d, ...patch }));
+  const update = (
+    patch: Partial<Invitation> | ((current: Invitation) => Partial<Invitation>),
+  ) => {
+    setData((d) => ({ ...d, ...(typeof patch === "function" ? patch(d) : patch) }));
     setSaved(false);
   };
   const event = (key: keyof Invitation["event"], value: string) =>
